@@ -22,6 +22,7 @@ import CoolingBar from '../components/charts/CoolingBar';
 import TrendLine from '../components/charts/TrendLine';
 import FilterPanel from '../components/blocks/FilterPanel';
 import PriorityTable from '../components/blocks/PriorityTable';
+import BlockCard from '../components/blocks/BlockCard';
 import BlockDetailPanel from '../components/blocks/BlockDetailPanel';
 
 const DEMO_RUN = 'demo-dubai-2026-10';
@@ -261,6 +262,26 @@ export default function Dashboard() {
               </Button>
             )}
           </div>
+
+          <Card>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-semibold">Top 5 blocks to fix first</h3>
+              <span className="text-xs text-[var(--text-muted)]">Click to inspect on the map</span>
+            </div>
+            <div className="space-y-2">
+              {allBlocks.slice(0, 5).map((b) => (
+                <BlockCard
+                  key={b.id}
+                  block={b}
+                  selected={selected?.id === b.id}
+                  onClick={() => onView(b)}
+                />
+              ))}
+              {!allBlocks.length && (
+                <p className="text-xs text-[var(--text-muted)]">Loading…</p>
+              )}
+            </div>
+          </Card>
         </div>
         <div className="xl:col-span-2 space-y-4">
           <ActionDonut
