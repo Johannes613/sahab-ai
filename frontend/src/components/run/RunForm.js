@@ -5,9 +5,17 @@ import 'leaflet/dist/leaflet.css';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 import { addCity } from '../../api/sahab';
+import SceneThumb from './SceneThumb';
 
 const field =
   'w-full px-3 py-2 border border-[var(--border)] rounded-lg bg-[var(--bg)] text-[var(--text-main)] text-sm focus:outline-none focus:ring-2 focus:ring-accent/40';
+
+// Approximate bounding boxes [west, south, east, north] for quick demo runs
+const PRESETS = [
+  { label: 'Abu Dhabi downtown', cityName: 'Abu Dhabi', bbox: [54.34, 24.46, 54.41, 24.51] },
+  { label: 'Dubai Marina', cityName: 'Dubai', bbox: [55.12, 25.06, 55.16, 25.1] },
+  { label: 'Riyadh central', cityName: 'Riyadh', bbox: [46.64, 24.6, 46.75, 24.72] },
+];
 
 function Label({ children }) {
   return <label className="block text-sm font-medium text-[var(--text-main)] mb-1">{children}</label>;
@@ -70,6 +78,13 @@ export default function RunForm({ cities, onSubmit, busy, onCityAdded }) {
   const [landsat, setLandsat] = useState(true);
   const [error, setError] = useState('');
 
+  const applyPreset = (p) => {
+    const existing = cities.find((c) => c.name.toLowerCase() === p.cityName.toLowerCase());
+    setCityId(existing ? existing.id : '');
+    setNewName(existing ? '' : p.cityName);
+    setBbox(p.bbox);
+  };
+
   const selected = cities.find((c) => c.id === cityId);
   const effectiveBbox = bbox || selected?.aoi_bbox || null;
 
@@ -112,6 +127,21 @@ export default function RunForm({ cities, onSubmit, busy, onCityAdded }) {
         <Card className="space-y-4">
           <h3 className="text-sm font-semibold">City &amp; area</h3>
           <div>
+            <p className="text-xs text-[var(--text-muted)] mb-2">Quick select</p>
+            <div className="flex flex-wrap gap-2">
+              {PRESETS.map((p) => (
+                <button
+                  key={p.label}
+                  type="button"
+                  onClick={() => applyPreset(p)}
+                  className="px-3 py-1.5 rounded-lg text-xs font-medium border border-[var(--border)] text-[var(--text-main)] hover:border-accent/50 hover:text-accent hover:bg-accent/5 transition-all"
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
             <Label>Saved city</Label>
             <select className={field} value={cityId} onChange={(e) => { setCityId(e.target.value); setBbox(null); }}>
               <option value="">New city (draw on map)</option>
@@ -139,10 +169,12 @@ export default function RunForm({ cities, onSubmit, busy, onCityAdded }) {
             <div>
               <Label>Scene ID (T1, earlier)</Label>
               <input className={field} value={t1} onChange={(e) => setT1(e.target.value)} placeholder="tanager_..." />
+              <SceneThumb sceneId={t1} />
             </div>
             <div>
               <Label>Scene ID (T2, later)</Label>
               <input className={field} value={t2} onChange={(e) => setT2(e.target.value)} placeholder="tanager_..." />
+              <SceneThumb sceneId={t2} />
             </div>
           </div>
           <a

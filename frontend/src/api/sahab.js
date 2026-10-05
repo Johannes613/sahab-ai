@@ -1,5 +1,7 @@
 import axios from 'axios';
-import { MOCK_CITIES, MOCK_RUNS, buildBlocks, buildSummary } from '../mock/mockData';
+import {
+  MOCK_CITIES, MOCK_RUNS, buildBlocks, buildSummary, makeRunRecord,
+} from '../mock/mockData';
 
 const BASE = process.env.REACT_APP_API_URL;
 export const USE_MOCK = !BASE;
@@ -26,7 +28,7 @@ function mockBlocksFor(runId) {
   const payload = mockPayloads[runId];
   const run = MOCK_RUNS.find((r) => r.run_id === runId);
   const city = MOCK_CITIES.find((c) => c.id === run?.city_id);
-  return buildBlocks(runId, payload?.aoi_bbox || city?.aoi_bbox);
+  return buildBlocks(runId, payload?.aoi_bbox || city?.aoi_bbox, 180, run?.risk_scale || 1);
 }
 
 function applyFilters(blocks, p = {}) {
@@ -45,16 +47,21 @@ export const runAnalysis = (payload) => {
     const runId = `run-${Date.now()}`;
     mockStarts[runId] = Date.now();
     mockPayloads[runId] = payload;
-    MOCK_RUNS.unshift({
-      run_id: runId,
-      city_id: payload.city_id || 'custom',
-      city_name: payload.city_name,
-      date: new Date().toISOString().slice(0, 10),
-      scene_dates: [payload.scene_t1_id || 'T1', payload.scene_t2_id || 'T2'],
-      mean_lst: 44.6,
-      high_risk_count: 0,
-      top_action_count: 0,
-    });
+    const bbox = payload.aoi_bbox || MOCK_CITIES[0].aoi_bbox;
+    MOCK_RUNS.unshift(
+      makeRunRecord(
+        {
+          run_id: runId,
+          city_id: payload.city_id || 'custom',
+          city_name: payload.city_name,
+          date: new Date().toISOString().slice(0, 10),
+          scene_dates: [payload.scene_t1_id || 'T1', payload.scene_t2_id || 'T2'],
+          mean_lst: 44.6,
+          risk_scale: 1,
+        },
+        bbox
+      )
+    );
     return delay({ run_id: runId, status: 'queued' });
   }
   return api.post('/analysis/run', payload).then((r) => r.data);
@@ -90,7 +97,10 @@ export const cancelRun = (runId) => {
 };
 
 export const getSummary = (runId) => {
-  if (USE_MOCK) return delay(buildSummary(mockBlocksFor(runId)));
+  if (USE_MOCK) {
+    const run = MOCK_RUNS.find((r) => r.run_id === runId);
+    return delay(buildSummary(mockBlocksFor(runId), run));
+  }
   return api.get(`/results/${runId}/summary`).then((r) => r.data);
 };
 
@@ -149,4 +159,21 @@ export const getAllRuns = () => {
     const hist = await Promise.all(r.data.map((c) => getCityHistory(c.id)));
     return hist.flat();
   });
+};
+
+// Thumbnail and acquisition date for a Tanager scene. In production the backend
+// reads this from Planet's STAC item (GET /api/v1/scenes/{scene_id}).
+export const getSceneInfo = (sceneId) => {
+  if (USE_MOCK) {
+    if (!/^[\w-]{6,}$/.test(sceneId)) return Promise.reject(new Error('not found'));
+    const hue = Array.from(sceneId).reduce((a, c) => a + c.charCodeAt(0), 0) % 360;
+    const svg =
+      `<svg xmlns='http://www.w3.org/2000/svg' width='320' height='180'>` +
+      `<defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>` +
+      `<stop offset='0' stop-color='hsl(${hue},35%,38%)'/><stop offset='1' stop-color='hsl(${(hue + 50) % 360},45%,60%)'/>` +
+      `</linearGradient></defs><rect width='320' height='180' fill='url(#g)'/>` +
+      `<text x='160' y='95' fill='white' font-size='13' text-anchor='middle' font-family='monospace'>mock thumbnail</text></svg>`;
+    return delay({ scene_id: sceneId, acquired: '2026-07-09', thumbnail_url: `data:image/svg+xml;utf8,${encodeURIComponent(svg)}` }, 400);
+  }
+  return api.get(`/scenes/${encodeURIComponent(sceneId)}`).then((r) => r.data);
 };

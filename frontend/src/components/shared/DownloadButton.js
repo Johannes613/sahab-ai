@@ -2,8 +2,19 @@ import React from 'react';
 import { Download } from 'lucide-react';
 import Button from '../ui/Button';
 
-function toCsv(rows) {
-  if (!rows.length) return '';
+// one level of flattening so nested objects (materials) become columns
+function flatten(row) {
+  const out = {};
+  Object.entries(row).forEach(([k, v]) => {
+    if (v && typeof v === 'object') Object.entries(v).forEach(([k2, v2]) => { out[`${k}_${k2}`] = v2; });
+    else out[k] = v;
+  });
+  return out;
+}
+
+function toCsv(input) {
+  if (!input.length) return '';
+  const rows = input.map(flatten);
   const cols = Object.keys(rows[0]);
   const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
   return [cols.join(','), ...rows.map((r) => cols.map((c) => esc(r[c])).join(','))].join('\n');

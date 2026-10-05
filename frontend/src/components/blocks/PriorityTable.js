@@ -4,6 +4,7 @@ import {
 } from '@tanstack/react-table';
 import { Eye, ArrowUp, ArrowDown, ChevronsUpDown } from 'lucide-react';
 import Badge from '../ui/Badge';
+import MaterialBar from './MaterialBar';
 import Button from '../ui/Button';
 import { ACTIONS } from '../../constants';
 
@@ -17,6 +18,11 @@ export default function PriorityTable({ blocks, onView }) {
       { accessorKey: 'rank', header: 'Rank' },
       { accessorKey: 'risk_score', header: 'Risk Score', cell: (c) => c.getValue().toFixed(2) },
       {
+        accessorKey: 'population_exposure',
+        header: 'Population exposure',
+        cell: (c) => c.getValue().toFixed(2),
+      },
+      {
         accessorKey: 'action',
         header: 'Action',
         cell: (c) => <Badge color={ACTION_BADGE[c.getValue()]}>{ACTIONS[c.getValue()]?.label}</Badge>,
@@ -26,9 +32,20 @@ export default function PriorityTable({ blocks, onView }) {
         header: 'Est. Cooling (°C)',
         cell: (c) => (c.getValue() ? c.getValue().toFixed(1) : '-'),
       },
-      { accessorKey: 'dominant_material', header: 'Dominant Material' },
-      { accessorKey: 'veg_fraction', header: 'Vegetation Fraction', cell: (c) => c.getValue().toFixed(2) },
-      { accessorKey: 'asphalt_fraction', header: 'Asphalt Fraction', cell: (c) => c.getValue().toFixed(2) },
+      {
+        accessorKey: 'est_cooling_ci',
+        header: 'Cooling interval',
+        cell: ({ row }) => {
+          const { est_cooling_C: c, est_cooling_ci: ci } = row.original;
+          return c ? `${c.toFixed(1)} ± ${ci.toFixed(1)} °C` : '-';
+        },
+      },
+      {
+        id: 'materials',
+        header: 'Materials',
+        enableSorting: false,
+        cell: ({ row }) => <MaterialBar materials={row.original.materials} width={120} height={10} />,
+      },
       { accessorKey: 'lat', header: 'Lat', cell: (c) => c.getValue().toFixed(4) },
       { accessorKey: 'lon', header: 'Lon', cell: (c) => c.getValue().toFixed(4) },
       {

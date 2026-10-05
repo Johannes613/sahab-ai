@@ -1,6 +1,7 @@
 import React from 'react';
 import { Layers, Flame, ListOrdered, ExternalLink } from 'lucide-react';
 import Card from '../components/ui/Card';
+import { MODEL_METRICS } from '../modelMetrics';
 
 const PILLARS = [
   {
@@ -80,6 +81,33 @@ export default function About() {
                   <td className="py-2 pr-4 font-medium">{a}</td>
                   <td className="py-2 pr-4 text-[var(--text-muted)]">{b}</td>
                   <td className="py-2 text-[var(--text-muted)]">{c}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+
+      <Card>
+        <h3 className="text-sm font-semibold mb-1">Classifier comparison</h3>
+        <p className="text-xs text-[var(--text-muted)] mb-3">
+          Cross-validated macro F1 and Cohen's Kappa for the material classifiers.
+        </p>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-[var(--border)] text-xs text-[var(--text-muted)] text-left">
+                <th className="py-2 pr-4 font-medium">Model</th>
+                <th className="py-2 pr-4 font-medium">Macro F1</th>
+                <th className="py-2 font-medium">Cohen's Kappa</th>
+              </tr>
+            </thead>
+            <tbody>
+              {MODEL_METRICS.map((m) => (
+                <tr key={m.name} className="border-b border-[var(--border)] last:border-0">
+                  <td className="py-2 pr-4 font-medium">{m.name}</td>
+                  <td className="py-2 pr-4">{m.f1 == null ? 'TBD' : m.f1.toFixed(3)}</td>
+                  <td className="py-2">{m.kappa == null ? 'TBD' : m.kappa.toFixed(3)}</td>
                 </tr>
               ))}
             </tbody>

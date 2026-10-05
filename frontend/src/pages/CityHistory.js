@@ -5,6 +5,7 @@ import { useCities, useCityHistory } from '../hooks/useCity';
 import { useRun } from '../context/RunContext';
 import Card from '../components/ui/Card';
 import Badge from '../components/ui/Badge';
+import CompareMaps from '../components/map/CompareMaps';
 
 function Delta({ a, b, unit = '', inverse = true }) {
   const d = +(b - a).toFixed(1);
@@ -85,6 +86,12 @@ export default function CityHistory() {
                 <Delta a={compared[0].top_action_count} b={compared[1].top_action_count} /></p>
             </div>
           </div>
+        </Card>
+      )}
+
+      {compared.length === 2 && (
+        <Card>
+          <CompareMaps before={compared[0]} after={compared[1]} />
         </Card>
       )}
 
