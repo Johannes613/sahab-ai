@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import {
@@ -31,12 +31,17 @@ const avg = (xs) => (xs.length ? xs.reduce((s, v) => s + v, 0) / xs.length : 0);
 export default function Dashboard() {
   const { runId: ctxRunId, setRunId } = useRun();
   const [params, setParams] = useSearchParams();
-  const runId = params.get('run') || ctxRunId || (USE_MOCK ? DEMO_RUN : null);
+  // Deep links from the Agent Chat use run_id, city, filter_action, min_risk and highlight_block
+  const runFromUrl = params.get('run') || params.get('run_id');
+  const cityFromChat = params.get('city');
+  const highlightRank = parseInt(params.get('highlight_block') || '0', 10);
+  const runId = runFromUrl || ctxRunId || (USE_MOCK ? DEMO_RUN : null);
+  const paramsRef = useRef(params);
+  paramsRef.current = params;
 
   useEffect(() => {
-    const fromUrl = params.get('run');
-    if (fromUrl && fromUrl !== ctxRunId) setRunId(fromUrl);
-  }, [params, ctxRunId, setRunId]);
+    if (runFromUrl && runFromUrl !== ctxRunId) setRunId(runFromUrl);
+  }, [runFromUrl, ctxRunId, setRunId]);
 
   const { cities } = useCities();
   const { summary, error } = useSummary(runId);
@@ -62,7 +67,14 @@ export default function Dashboard() {
   useEffect(() => {
     setSelected(null);
     setFocus(null);
-    setFilters({ action: '', min_risk: 0, min_population: 0 });
+    const p = paramsRef.current;
+    const fa = p.get('filter_action');
+    const mr = parseFloat(p.get('min_risk') || '0');
+    setFilters({
+      action: ['tree_planting', 'cool_roofs', 'both'].includes(fa) ? fa : '',
+      min_risk: Number.isFinite(mr) ? Math.min(1, Math.max(0, mr)) : 0,
+      min_population: 0,
+    });
     setSearch('');
   }, [runId]);
 
@@ -109,6 +121,38 @@ export default function Dashboard() {
     setSelected(block);
   }, []);
   const closePanel = useCallback(() => setSelected(null), []);
+
+  // highlight_block=N: fly to the block with rank N and open its detail panel, once per run
+  const highlighted = useRef('');
+  useEffect(() => {
+    if (!highlightRank || !allBlocks.length) return;
+    const key = `${runId}:${highlightRank}`;
+    if (highlighted.current === key) return;
+    const block = allBlocks.find((b) => b.rank === highlightRank);
+    if (block) {
+      highlighted.current = key;
+      onView(block);
+    }
+  }, [allBlocks, highlightRank, runId, onView]);
+
+  // city=Name without a run: open that city's latest run
+  const cityNotified = useRef('');
+  useEffect(() => {
+    if (!cityFromChat || runFromUrl || !runs.length) return;
+    const want = cityFromChat.toLowerCase();
+    if (runMeta && runMeta.city_name.toLowerCase() === want) return;
+    const latest = runs
+      .filter((r) => r.city_name.toLowerCase() === want)
+      .sort((a, b) => b.date.localeCompare(a.date))[0];
+    if (latest) {
+      const next = new URLSearchParams(params);
+      next.set('run', latest.run_id);
+      setParams(next, { replace: true });
+    } else if (cityNotified.current !== want) {
+      cityNotified.current = want;
+      toast(`No analysis for ${cityFromChat} yet. Start one from Run Analysis.`);
+    }
+  }, [cityFromChat, runFromUrl, runs, runMeta, params, setParams]);
 
   const changeCity = (cityId) => {
     const latest = runs
@@ -214,18 +258,18 @@ export default function Dashboard() {
         />
         <StatCard
           icon={<AlertTriangle size={22} />} label="High risk (score > 0.7)"
-          value={summary?.high_risk_count ?? '-'} color="#ef4444"
-          badge={summary && <Badge color="red">High</Badge>}
+          value={summary?.high_risk_count ?? '-'} color="#8100D1"
+          badge={summary && <Badge color="purple">High</Badge>}
         />
         <StatCard
           icon={<Thermometer size={22} />} label="Mean LST above city baseline"
           value={delta != null ? `${delta >= 0 ? '+' : ''}${delta.toFixed(1)} °C` : '-'}
-          color="#f59e0b"
+          color="#8100D1"
           sub={summary ? `Top 20 blocks vs city mean of ${summary.mean_lst} °C` : undefined}
         />
         <StatCard
           icon={<Snowflake size={22} />} label="Est. cooling, top 20 blocks"
-          value={summary ? `${summary.total_cooling_top20} °C` : '-'} color="#3b82f6"
+          value={summary ? `${summary.total_cooling_top20} °C` : '-'} color="#8100D1"
           sub="Summed surface cooling (modelled)"
         />
       </div>

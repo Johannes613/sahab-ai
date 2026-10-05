@@ -1,11 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, PlayCircle, History, Info, CloudSun } from 'lucide-react';
+import { LayoutDashboard, PlayCircle, History, Info, CloudSun, Bot } from 'lucide-react';
 
 const NAV = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
   { to: '/run', icon: PlayCircle, label: 'Run Analysis' },
   { to: '/history', icon: History, label: 'City History' },
+  { to: '/chat', icon: Bot, label: 'Agent Chat' },
   { to: '/about', icon: Info, label: 'About' },
 ];
 

@@ -3,10 +3,10 @@ import Badge from '../ui/Badge';
 import MaterialBar from './MaterialBar';
 import { ACTIONS } from '../../constants';
 
-const ACTION_BADGE = { tree_planting: 'green', cool_roofs: 'orange', both: 'blue', none: 'default' };
+const ACTION_BADGE = { tree_planting: 'purple', cool_roofs: 'purple', both: 'purple', none: 'default' };
 
 function riskColor(r) {
-  return r >= 0.7 ? '#dc2626' : r >= 0.4 ? '#f97316' : '#eab308';
+  return '#8100D1';
 }
 
 export default function BlockCard({ block: b, onClick, selected }) {

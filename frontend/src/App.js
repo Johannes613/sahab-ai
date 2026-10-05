@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard';
 import RunAnalysis from './pages/RunAnalysis';
 import CityHistory from './pages/CityHistory';
 import About from './pages/About';
+import AgentChat from './pages/AgentChat';
 
 export default function App() {
   return (
@@ -19,6 +20,8 @@ export default function App() {
               <Route path="/" element={<Dashboard />} />
               <Route path="/run" element={<RunAnalysis />} />
               <Route path="/history" element={<CityHistory />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/chat" element={<AgentChat />} />
               <Route path="/about" element={<About />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Route>

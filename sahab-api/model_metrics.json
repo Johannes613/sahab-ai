@@ -1,0 +1,13 @@
+{
+  "cv_macro_f1_xgb": 0.9300401927196477,
+  "cv_macro_f1_svm": 0.9767010627507429,
+  "cv_macro_f1_rf": 0.9999764057133682,
+  "cv_macro_f1_ensemble": 0.9841804690524875,
+  "cohen_kappa_xgb": 0.9975853538233294,
+  "cohen_kappa_svm": 0.9888712211999625,
+  "cohen_kappa_ensemble": 0.9993105691116521,
+  "n_training_pixels": 77105,
+  "cv_folds": 5,
+  "label_source": "rule-based seed labels (pseudo-labels), not field-verified ground truth",
+  "train_scene": "20250515_080954_16_4001"
+}

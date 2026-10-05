@@ -8,6 +8,7 @@ load_dotenv()
 
 from routers.analysis import router as analysis_router
 from routers.results import router as results_router
+from routers.agent_chat import router as chat_router
 
 app = FastAPI(title='Sahab AI API', version='1.0.0',
               description='Urban heat risk monitoring for the MENA region')
@@ -23,6 +24,7 @@ app.add_middleware(
 
 app.include_router(analysis_router)
 app.include_router(results_router)
+app.include_router(chat_router)
 
 RESULTS_DIR = os.getenv('RESULTS_DIR', './results')
 os.makedirs(RESULTS_DIR, exist_ok=True)

@@ -39,7 +39,23 @@ curl http://localhost:8000/api/v1/results/<run_id>/summary
 | GET | `/api/v1/results/{run_id}/geojson` | GeoJSON FeatureCollection |
 | GET | `/api/v1/cities` | city names with runs |
 | GET | `/api/v1/cities/{city_name}/history` | past runs for a city |
+| POST | `/api/v1/chat/message` | agent chat: intent, data, insight and deep links |
+| POST | `/api/v1/chat/gemini` | server-side Gemini proxy (keeps the key off the browser) |
 | GET | `/health` | liveness check |
+
+## Agent chat (Gemini)
+
+`POST /api/v1/chat/message` runs four agents in sequence: an intent parser (Gemini), a data agent
+(reuses the latest completed run for the city, otherwise returns clearly labelled simulated data),
+an insight agent (Gemini) and a link builder.
+
+Set `GEMINI_API_KEY` in `.env` (never in the frontend). Models are configurable through
+`GEMINI_INTENT_MODEL` and `GEMINI_INSIGHT_MODEL`; Google retires models, and `gemini-2.0-flash` is
+already shut down. The calls use the REST `generateContent` endpoint through `requests`, because
+the `google-generativeai` SDK reached end of life in November 2025.
+
+Without a key the chat still answers: it falls back to a keyword parser and a plain data readout,
+and the response says which agents actually ran.
 
 ## Deploy to Render.com
 

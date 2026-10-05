@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { XCircle } from 'lucide-react';
 import { runAnalysis, cancelRun } from '../api/sahab';
@@ -13,6 +13,16 @@ import Button from '../components/ui/Button';
 
 export default function RunAnalysis() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  // Chat deep links: /run?city=Muscat&bbox=58.1,23.4,58.7,23.8&epsg=32640
+  const initial = useMemo(() => {
+    const city = searchParams.get('city');
+    const parts = (searchParams.get('bbox') || '').split(',').map(Number);
+    const bbox = parts.length === 4 && parts.every(Number.isFinite) && parts[0] < parts[2] && parts[1] < parts[3]
+      ? parts : null;
+    const epsg = parseInt(searchParams.get('epsg') || '', 10);
+    return city || bbox ? { city, bbox, epsg: Number.isFinite(epsg) ? epsg : null } : null;
+  }, [searchParams]);
   const { setRunId } = useRun();
   const { cities, reload } = useCities();
   const [activeRun, setActiveRun] = useState(null);
@@ -81,7 +91,7 @@ export default function RunAnalysis() {
           Pick an area and two Tanager scenes. The pipeline takes about 1 to 3 minutes.
         </p>
       </div>
-      <RunForm cities={cities} onSubmit={start} busy={busy} onCityAdded={reload} />
+      <RunForm cities={cities} onSubmit={start} busy={busy} onCityAdded={reload} initial={initial} />
     </div>
   );
 }

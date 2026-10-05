@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, Rectangle, useMapEvents, useMap } from 'react-leaflet';
 import { ExternalLink, Play } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
@@ -66,7 +66,7 @@ function Recenter({ bbox }) {
   return null;
 }
 
-export default function RunForm({ cities, onSubmit, busy, onCityAdded }) {
+export default function RunForm({ cities, onSubmit, busy, onCityAdded, initial }) {
   const [cityId, setCityId] = useState('');
   const [newName, setNewName] = useState('');
   const [bbox, setBbox] = useState(null);
@@ -77,6 +77,26 @@ export default function RunForm({ cities, onSubmit, busy, onCityAdded }) {
   const [sentinel, setSentinel] = useState(true);
   const [landsat, setLandsat] = useState(true);
   const [error, setError] = useState('');
+
+  const [epsg, setEpsg] = useState(initial?.epsg || null);
+  const matchedInitial = useRef(false);
+
+  // Prefill from an Agent Chat link: area and name right away, saved city once the list loads
+  useEffect(() => {
+    if (!initial) return;
+    if (initial.bbox) setBbox(initial.bbox);
+    if (initial.city) setNewName(initial.city);
+    if (initial.epsg) setEpsg(initial.epsg);
+  }, [initial]);
+  useEffect(() => {
+    if (!initial?.city || matchedInitial.current || !cities.length) return;
+    const existing = cities.find((c) => c.name.toLowerCase() === initial.city.toLowerCase());
+    matchedInitial.current = true;
+    if (existing) {
+      setCityId(existing.id);
+      setNewName('');
+    }
+  }, [initial, cities]);
 
   const applyPreset = (p) => {
     const existing = cities.find((c) => c.name.toLowerCase() === p.cityName.toLowerCase());
@@ -118,6 +138,7 @@ export default function RunForm({ cities, onSubmit, busy, onCityAdded }) {
       min_valid_pct: minValid,
       include_sentinel: sentinel,
       include_landsat: landsat,
+      ...(epsg ? { epsg } : {}),
     });
   };
 

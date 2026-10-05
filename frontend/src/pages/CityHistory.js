@@ -126,9 +126,9 @@ export default function CityHistory() {
               Scenes: {run.scene_dates.join(' / ')}
             </p>
             <div className="flex flex-wrap gap-2">
-              <Badge color="orange"><Thermometer size={11} className="mr-1" />{run.mean_lst} °C</Badge>
-              <Badge color="red"><AlertTriangle size={11} className="mr-1" />{run.high_risk_count} high risk</Badge>
-              <Badge color="accent"><Layers size={11} className="mr-1" />{run.top_action_count} actions</Badge>
+              <Badge color="purple"><Thermometer size={11} className="mr-1" />{run.mean_lst} °C</Badge>
+              <Badge color="purple"><AlertTriangle size={11} className="mr-1" />{run.high_risk_count} high risk</Badge>
+              <Badge color="purple"><Layers size={11} className="mr-1" />{run.top_action_count} actions</Badge>
             </div>
           </Card>
         ))}
