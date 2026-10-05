@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layers, Flame, ListOrdered, ExternalLink } from 'lucide-react';
 import Card from '../components/ui/Card';
-import { MODEL_METRICS } from '../modelMetrics';
+import { MODEL_METRICS, MODEL_METRICS_NOTE } from '../modelMetrics';
 
 const PILLARS = [
   {
@@ -113,6 +113,7 @@ export default function About() {
             </tbody>
           </table>
         </div>
+        <p className="text-xs text-[var(--text-muted)] mt-3">{MODEL_METRICS_NOTE}</p>
       </Card>
 
       <Card>
