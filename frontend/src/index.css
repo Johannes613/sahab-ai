@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: 'Roboto Mono', 'Courier New', monospace;
+}
+
+.light {
+  --bg: #F8F5FC;
+  --surface: #FFFFFF;
+  --sidebar: #FFFFFF;
+  --text-main: #111827;
+  --text-muted: #6B7280;
+  --border: #E5E7EB;
+}
+
+.dark {
+  --bg: #0F0A14;
+  --surface: #17111F;
+  --sidebar: #120B1A;
+  --text-main: #F9FAFB;
+  --text-muted: #A1A1AA;
+  --border: #2D2238;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text-main);
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #8100D1; border-radius: 4px; }
+
+.leaflet-container { font-family: 'Roboto Mono', 'Courier New', monospace; }
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--surface);
+  color: var(--text-main);
+  border: 1px solid var(--border);
+}
+
+/* OSM tiles have no dark variant; invert them in dark mode */
+.dark .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9);
+}
