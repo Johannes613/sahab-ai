@@ -5,6 +5,7 @@ import {
   Grid3x3, AlertTriangle, Thermometer, Snowflake, PlayCircle, MapPin, FileDown,
 } from 'lucide-react';
 import { useRun } from '../context/RunContext';
+import { DEFAULT_RUN_ID } from '../constants';
 import { useBlocks, useSummary } from '../hooks/useBlocks';
 import { useCities } from '../hooks/useCity';
 import { getAllRuns, getImages, getMapUrl } from '../api/sahab';
@@ -33,8 +34,14 @@ export default function Dashboard() {
   const cityFromChat = params.get('city');
   const highlightRank = parseInt(params.get('highlight_block') || '0', 10);
   const [runs, setRuns] = useState(null); // null until loaded
-  const latestRunId = runs && runs.length ? runs[0].run_id : null;
-  const runId = runFromUrl || ctxRunId || latestRunId;
+  // The run you last opened, if it still exists; otherwise the built-in Riyadh analysis; otherwise
+  // the newest run. A stale ID in browser storage must never produce an error page.
+  const knownIds = runs ? new Set(runs.map((r) => r.run_id)) : null;
+  const rememberedRunId = knownIds && ctxRunId && knownIds.has(ctxRunId) ? ctxRunId : null;
+  const defaultRunId = runs && runs.length
+    ? (knownIds.has(DEFAULT_RUN_ID) ? DEFAULT_RUN_ID : runs[0].run_id)
+    : null;
+  const runId = runFromUrl || rememberedRunId || defaultRunId;
   const paramsRef = useRef(params);
   paramsRef.current = params;
 

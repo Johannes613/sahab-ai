@@ -63,6 +63,17 @@ scene instead and says so in the run summary.
 With real Landsat temperatures the cooling model is fitted on the scene being analysed; the saved model
 is used only when Landsat is unavailable, because it was trained on a modelled temperature surface.
 
+## Built-in example analysis
+
+`seed/riyadh-2025-05-15/` is a finished real analysis (Riyadh, Tanager scene 2025-05-15, real Landsat
+temperatures, 851 blocks, map layers and the standalone map). On startup it is copied into `results/`
+if it is not already there, and nothing is ever overwritten. So a fresh clone, a new deployment, or a
+disk that was wiped (Render's free tier) always opens on a populated dashboard, and the frontend opens
+on it by default (`DEFAULT_RUN_ID` in `frontend/src/constants.js`).
+
+To replace it with a newer run, copy that run's record, blocks and `files/` folder into a new
+`seed/<run_id>/` (`run.json`, `blocks.json`, `files/`), and update `DEFAULT_RUN_ID`.
+
 ## Scene index
 
 `data/tanager_scene_index.json` is a crawl of Planet's open Tanager catalog. Rebuild it with

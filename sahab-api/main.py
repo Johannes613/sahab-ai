@@ -13,6 +13,7 @@ from routers.scenes import router as scenes_router
 from routers.agent_chat import router as chat_router
 from pipeline.model_store import load_classifier, load_cooling, model_status
 from storage.runs import recover_interrupted_runs
+from storage.seed import install_seed_runs
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger('sahab')
@@ -42,6 +43,9 @@ app.mount('/files', StaticFiles(directory=os.path.join(RESULTS_DIR, 'files')), n
 
 @app.on_event('startup')
 def startup():
+    seeded = install_seed_runs()
+    if seeded:
+        log.info('installed built-in example analyses: %s', seeded)
     n = recover_interrupted_runs()
     if n:
         log.warning('marked %d interrupted run(s) as failed', n)

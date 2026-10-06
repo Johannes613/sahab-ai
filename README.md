@@ -31,7 +31,9 @@ setting (`CORS_ORIGINS` in `sahab-api/.env`).
 
 ## What is real, and what is not
 
-- Everything the dashboard shows comes from a real analysis run; there is no mock data.
+- Everything the dashboard shows comes from a real analysis run; there is no mock data. The dashboard
+  opens on a built-in Riyadh analysis that ships with the backend (`sahab-api/seed`), so a fresh install
+  is never empty.
 - The open Tanager catalog has about 150 scenes worldwide. **Riyadh (2025-05-15) is the only Arab city
   with an urban scene**, and no Arab city has a second date, so change detection between two dates is
   not possible with open data. Analyses therefore run on a single scene, and the change layer appears

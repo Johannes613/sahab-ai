@@ -7,3 +7,7 @@ export const ACTIONS = {
 
 export const ACTION_KEYS = Object.keys(ACTIONS);
 export const ACCENT = '#8100D1';
+
+// The analysis the dashboard opens on when nothing else is selected. It ships with the backend
+// (sahab-api/seed) so a fresh install is never empty.
+export const DEFAULT_RUN_ID = 'riyadh-2025-05-15';

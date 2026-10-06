@@ -1,0 +1,164 @@
+{
+ "run_id": "riyadh-2025-05-15",
+ "city_name": "Riyadh",
+ "status": "complete",
+ "progress_pct": 100,
+ "current_step": "Done",
+ "created_at": "2026-10-06T07:20:13.335891",
+ "completed_at": "2026-10-06T07:24:55.898102",
+ "error": null,
+ "request": {
+  "city_name": "Riyadh",
+  "bbox": [
+   46.55,
+   24.55,
+   46.85,
+   24.85
+  ],
+  "scene_t1_id": null,
+  "scene_t2_id": "20250515_080954_16_4001",
+  "block_size": 50,
+  "block_size_m": 600,
+  "min_valid_pct": 0.15,
+  "include_sentinel2": true,
+  "include_landsat": true,
+  "epsg": 32638
+ },
+ "summary": {
+  "run_id": "riyadh-2025-05-15",
+  "city_name": "Riyadh",
+  "total_blocks": 851,
+  "high_risk_count": 1,
+  "mean_lst": 42.67,
+  "max_lst": 52.71,
+  "total_cooling_top20": 8.75,
+  "scene_t1_date": "",
+  "scene_t2_date": "2025-05-15",
+  "t2_valid_pct": 18.9,
+  "t2_cloud_pct": 54.0,
+  "landsat_used": true,
+  "sentinel2_used": true,
+  "action_counts": {
+   "Tree planting": 497,
+   "Tree planting + Cool roofs": 23
+  },
+  "ndbi_lst_correlation": 0.084,
+  "ndvi_lst_correlation": -0.234,
+  "created_at": "2026-10-06T07:24:55.730079",
+  "top_action_counts": {
+   "tree_planting": 497,
+   "cool_roofs": 0,
+   "both": 23,
+   "none": 331
+  },
+  "cooling_total_by_action": {
+   "tree_planting": 215.05,
+   "cool_roofs": 0.0,
+   "both": 4.0
+  },
+  "mean_lst_delta_top20": 3.97,
+  "city_mean_risk": 0.34,
+  "city_mean_vegetation": 0.09,
+  "city_mean_exposure": 0.804,
+  "risk_histogram": [
+   60,
+   102,
+   170,
+   213,
+   158,
+   129,
+   18,
+   0,
+   0,
+   1
+  ],
+  "trend": [
+   {
+    "year": 2020,
+    "ndvi": 0.0684,
+    "ndbi": 0.0855
+   },
+   {
+    "year": 2021,
+    "ndvi": 0.057,
+    "ndbi": 0.0897
+   },
+   {
+    "year": 2022,
+    "ndvi": 0.0731,
+    "ndbi": 0.0806
+   },
+   {
+    "year": 2023,
+    "ndvi": 0.0612,
+    "ndbi": 0.0897
+   },
+   {
+    "year": 2024,
+    "ndvi": 0.0555,
+    "ndbi": 0.0827
+   },
+   {
+    "year": 2025,
+    "ndvi": 0.063,
+    "ndbi": 0.0805
+   }
+  ],
+  "data_sources": {
+   "tanager_t1": "",
+   "tanager_t2": "2025-05-15",
+   "landsat_range": [
+    "2024-05-15",
+    "2025-05-15"
+   ],
+   "sentinel_years": [
+    2020,
+    2025
+   ],
+   "lst_source": "Landsat 8/9 thermal band (median of recent clear scenes)"
+  },
+  "bbox": [
+   46.742135089113376,
+   24.485948622398926,
+   46.968973195085454,
+   24.665133790412913
+  ],
+  "has_change_layer": false,
+  "block_size_px": 20,
+  "block_size_m": 605,
+  "pixel_size_m": 30.3,
+  "epsg": 32638,
+  "lst_source": "Landsat 8/9 thermal band (median of recent clear scenes)",
+  "population_source": "built-up share of each block from the classified imagery (proxy; WorldPop not integrated)",
+  "cooling_source": "Gaussian Process fitted on this scene (Landsat temperatures)",
+  "classes_present": [
+   "Healthy veg",
+   "Stressed veg",
+   "Concrete/pavement",
+   "Reflective roof",
+   "Bare soil"
+  ],
+  "cohen_kappa_ensemble": 0.9993105691116521,
+  "cv_macro_f1_xgb": 0.9300401927196477,
+  "cv_macro_f1_svm": 0.9767010627507429,
+  "cv_macro_f1_ensemble": 0.9841804690524875,
+  "label_source": "rule-based seed labels (pseudo-labels), not field-verified ground truth",
+  "model_source": "saved notebook model (artifacts/sahab_classifier.joblib)",
+  "model_trained_on_scene": "20250515_080954_16_4001",
+  "model_classes": [
+   "Healthy veg",
+   "Stressed veg",
+   "Concrete/pavement",
+   "Reflective roof",
+   "Bare soil"
+  ]
+ },
+ "blocks": [],
+ "map_html_path": "files/riyadh-2025-05-15/map.html",
+ "images": {
+  "material_map": "files/riyadh-2025-05-15/material_map.png",
+  "temperature_map": "files/riyadh-2025-05-15/temperature_map.png",
+  "risk_map": "files/riyadh-2025-05-15/risk_map.png"
+ },
+ "blocks_path": null
+}
