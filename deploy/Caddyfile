@@ -1,0 +1,16 @@
+# SITE_ADDRESS=:80            plain HTTP on any address (default)
+# SITE_ADDRESS=sahab.example.com   Caddy gets and renews an HTTPS certificate automatically
+{$SITE_ADDRESS::80} {
+	encode gzip
+
+	@backend path /api/* /files/* /health
+	handle @backend {
+		reverse_proxy api:8000
+	}
+
+	handle {
+		root * /srv
+		try_files {path} /index.html
+		file_server
+	}
+}

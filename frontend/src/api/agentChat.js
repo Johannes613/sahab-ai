@@ -1,6 +1,6 @@
 // The chat always talks to the real backend (the Gemini key lives there). Unlike the
 // rest of the app it has no built-in mock, so it defaults to the local dev server.
-const BASE = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const BASE = process.env.REACT_APP_API_URL ?? 'http://localhost:8000';
 
 export async function sendChatMessage(message, history, sessionId) {
   let res;
@@ -11,7 +11,7 @@ export async function sendChatMessage(message, history, sessionId) {
       body: JSON.stringify({ message, history, session_id: sessionId }),
     });
   } catch (err) {
-    throw new Error(`Could not reach the Sahab AI server at ${BASE}. Is the backend running?`);
+    throw new Error(`Could not reach the Sahab AI server${BASE ? ` at ${BASE}` : ''}. Is the backend running?`);
   }
   if (!res.ok) {
     let detail = '';

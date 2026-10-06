@@ -3,7 +3,8 @@
 // names into the shapes the UI components use.
 import axios from 'axios';
 
-export const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+// Unset: the local dev backend. Set to '' for a build served from the same address as the API.
+export const API_BASE = process.env.REACT_APP_API_URL ?? 'http://localhost:8000';
 const api = axios.create({ baseURL: `${API_BASE}/api/v1` });
 
 const ACTION_LABELS = {
