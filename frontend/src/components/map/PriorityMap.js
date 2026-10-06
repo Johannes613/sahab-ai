@@ -42,8 +42,15 @@ function FlyTo({ focus }) {
 function formatSources(s) {
   if (!s) return null;
   const parts = [];
-  if (s.tanager_t1 || s.tanager_t2) parts.push(`Tanager T1 ${s.tanager_t1 || 'n/a'} · T2 ${s.tanager_t2 || 'n/a'}`);
+  if (s.tanager_t2) {
+    parts.push(
+      s.tanager_t1
+        ? `Tanager ${s.tanager_t1} → ${s.tanager_t2}`
+        : `Tanager ${s.tanager_t2} (single scene)`
+    );
+  }
   if (s.landsat_range) parts.push(`Landsat ${s.landsat_range[0]} to ${s.landsat_range[1]}`);
+  else if (s.lst_source) parts.push(`Temperature: ${s.lst_source}`);
   if (s.sentinel_years) parts.push(`Sentinel-2 ${s.sentinel_years[0]}-${s.sentinel_years[1]}`);
   return parts.join('  |  ');
 }
@@ -78,8 +85,8 @@ export default function PriorityMap({
           <TileLayer url={tile} attribution="&copy; OpenStreetMap contributors" />
           <FitBounds blocks={blocks} />
           <FlyTo focus={focus} />
-          {overlay && bounds && images?.[overlay] && (
-            <ImageOverlay url={images[overlay]} bounds={bounds} opacity={0.6} />
+          {overlay && (images?.bounds || bounds) && images?.[overlay] && (
+            <ImageOverlay url={images[overlay]} bounds={images.bounds || bounds} opacity={0.6} />
           )}
           {blocks.map((b) => {
             const color = ACTIONS[b.action]?.color || ACTIONS.none.color;
@@ -108,7 +115,7 @@ export default function PriorityMap({
             return (
               <label
                 key={k}
-                title={ready ? '' : 'Available once the backend has produced this raster'}
+                title={ready ? '' : k === 'change_map' ? 'Needs an earlier scene of the same place' : 'Not available for this run'}
                 className={`flex items-center gap-2 text-[var(--text-main)] ${
                   ready ? 'cursor-pointer' : 'opacity-40 cursor-not-allowed'
                 }`}

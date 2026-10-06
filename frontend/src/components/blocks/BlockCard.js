@@ -31,8 +31,8 @@ export default function BlockCard({ block: b, onClick, selected }) {
             <span className="text-xs text-[var(--text-muted)]">Risk {b.risk_score.toFixed(2)}</span>
           </div>
           <p className="text-xs text-[var(--text-muted)] mt-1 truncate">
-            {b.est_cooling_C
-              ? `Est. cooling ${b.est_cooling_C.toFixed(1)} ± ${b.est_cooling_ci.toFixed(1)} °C`
+            {b.action !== 'none'
+              ? `Est. cooling ${b.est_cooling_C.toFixed(2)} ± ${b.est_cooling_ci.toFixed(2)} °C`
               : 'No intervention'}
             {' · '}
             {b.lst_delta >= 0 ? '+' : ''}{b.lst_delta.toFixed(1)} °C vs baseline

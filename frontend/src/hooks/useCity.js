@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { getCities, getCityHistory } from '../api/sahab';
+import { getCities, getCityCatalog, getCityHistory } from '../api/sahab';
 
 export function useCities() {
   const [cities, setCities] = useState([]);
@@ -41,4 +41,19 @@ export function useCityHistory(cityId) {
   }, [cityId]);
 
   return { history, loading };
+}
+
+// Every Arab city the app can locate (with scene coverage), for the Run Analysis form.
+export function useCityCatalog() {
+  const [catalog, setCatalog] = useState([]);
+  useEffect(() => {
+    let cancelled = false;
+    getCityCatalog()
+      .then((d) => !cancelled && setCatalog(d))
+      .catch(() => !cancelled && setCatalog([]));
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+  return catalog;
 }

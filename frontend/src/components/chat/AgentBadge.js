@@ -5,6 +5,8 @@ import { Zap, Satellite, Brain, Link2, Bot, FileText, Search } from 'lucide-reac
 // style so it is obvious when Gemini was not used.
 const AGENTS = {
   'Gemini (intent)': { cls: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300', Icon: Zap },
+  'Gemini Flash-Lite (intent)': { cls: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300', Icon: Zap },
+  'Gemini Flash-Lite (insight)': { cls: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300', Icon: Brain },
   'Keyword parser (intent)': { cls: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300', Icon: Search },
   'Sahab AI pipeline (data)': { cls: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300', Icon: Satellite },
   'Gemini (insight)': { cls: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300', Icon: Brain },

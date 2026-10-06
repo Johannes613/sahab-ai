@@ -6,18 +6,16 @@ import Card from '../ui/Card';
 import { ACCENT } from '../../constants';
 import { axisProps, tooltipStyle } from './chartTheme';
 
-export default function RiskHistogram({ blocks, cityAvg }) {
+// buckets: ten counts for risk 0-0.1 ... 0.9-1.0, computed by the backend over every block
+export default function RiskHistogram({ buckets, cityAvg }) {
   const { data, avgLabel } = useMemo(() => {
-    const buckets = Array.from({ length: 10 }, (_, i) => ({
+    const rows = Array.from({ length: 10 }, (_, i) => ({
       range: `${(i / 10).toFixed(1)}-${((i + 1) / 10).toFixed(1)}`,
-      count: 0,
+      count: buckets ? buckets[i] || 0 : 0,
     }));
-    blocks.forEach((b) => {
-      buckets[Math.min(9, Math.floor(b.risk_score * 10))].count += 1;
-    });
     const idx = cityAvg == null ? -1 : Math.min(9, Math.floor(cityAvg * 10));
-    return { data: buckets, avgLabel: idx >= 0 ? buckets[idx].range : null };
-  }, [blocks, cityAvg]);
+    return { data: rows, avgLabel: idx >= 0 ? rows[idx].range : null };
+  }, [buckets, cityAvg]);
 
   return (
     <Card>

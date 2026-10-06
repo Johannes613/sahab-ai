@@ -1,0 +1,2420 @@
+[
+ {
+  "id": "20240925_185504_87_4001",
+  "datetime": "2024-09-25T18:55:04.870339Z",
+  "bbox": [
+   -117.3167,
+   37.4447,
+   -116.9861,
+   37.698
+  ],
+  "gsd": 40.86,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20240925_185504_87_4001_thumb.png",
+  "collections": [
+   "energy-mining",
+   "natural-lands"
+  ]
+ },
+ {
+  "id": "20240925_185509_74_4001",
+  "datetime": "2024-09-25T18:55:09.740678Z",
+  "bbox": [
+   -117.3738,
+   37.2396,
+   -117.0433,
+   37.4908
+  ],
+  "gsd": 40.24,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20240925_185509_74_4001_thumb.png",
+  "collections": [
+   "energy-mining",
+   "natural-lands"
+  ]
+ },
+ {
+  "id": "20241004_081921_28_4001",
+  "datetime": "2024-10-04T08:19:21.283920Z",
+  "bbox": [
+   40.1993,
+   35.1518,
+   40.5132,
+   35.4353
+  ],
+  "gsd": 39.12,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20241004_081921_28_4001_thumb.png",
+  "collections": [
+   "GHG-plumes"
+  ]
+ },
+ {
+  "id": "20241025_185051_28_4001",
+  "datetime": "2024-10-25T18:50:51.283920Z",
+  "bbox": [
+   -118.6942,
+   34.0955,
+   -118.3833,
+   34.3814
+  ],
+  "gsd": 39.46,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20241025_185051_28_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "urban"
+  ]
+ },
+ {
+  "id": "20241025_185056_92_4001",
+  "datetime": "2024-10-25T18:50:56.925880Z",
+  "bbox": [
+   -118.7559,
+   33.856,
+   -118.4454,
+   34.1425
+  ],
+  "gsd": 40.01,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20241025_185056_92_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "urban"
+  ]
+ },
+ {
+  "id": "20241121_183741_33_4001",
+  "datetime": "2024-11-21T18:37:41.349662Z",
+  "bbox": [
+   -111.9783,
+   32.6794,
+   -111.6231,
+   32.8635
+  ],
+  "gsd": 43.56,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20241121_183741_33_4001_thumb.png",
+  "collections": [
+   "GHG-plumes"
+  ]
+ },
+ {
+  "id": "20241215_185902_00_4001",
+  "datetime": "2024-12-15T18:59:02.012445Z",
+  "bbox": [
+   -118.8136,
+   34.0711,
+   -118.5483,
+   34.2648
+  ],
+  "gsd": 39.86,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20241215_185902_00_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "urban"
+  ]
+ },
+ {
+  "id": "20241215_185916_33_4001",
+  "datetime": "2024-12-15T18:59:16.349662Z",
+  "bbox": [
+   -118.8471,
+   33.9195,
+   -118.5924,
+   34.1098
+  ],
+  "gsd": 37.45,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20241215_185916_33_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "fire"
+  ]
+ },
+ {
+  "id": "20250114_062056_92_4001",
+  "datetime": "2025-01-14T06:20:56.925880Z",
+  "bbox": [
+   69.6038,
+   27.8823,
+   69.8632,
+   28.1609
+  ],
+  "gsd": 36.78,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250114_062056_92_4001_thumb.png",
+  "collections": [
+   "GHG-plumes",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250123_185507_64_4001",
+  "datetime": "2025-01-23T18:55:07.641960Z",
+  "bbox": [
+   -118.6858,
+   34.3861,
+   -118.3756,
+   34.6672
+  ],
+  "gsd": 39.03,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250123_185507_64_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "fire"
+  ]
+ },
+ {
+  "id": "20250123_185518_92_4001",
+  "datetime": "2025-01-23T18:55:18.925880Z",
+  "bbox": [
+   -118.81,
+   33.9053,
+   -118.5025,
+   34.1904
+  ],
+  "gsd": 39,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250123_185518_92_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "fire"
+  ]
+ },
+ {
+  "id": "20250205_175845_00_4001",
+  "datetime": "2025-02-05T17:58:45Z",
+  "bbox": [
+   -104.0493,
+   32.738,
+   -103.7595,
+   33.0155
+  ],
+  "gsd": 38.23,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250205_175845_00_4001_thumb.png",
+  "collections": [
+   "energy-mining"
+  ]
+ },
+ {
+  "id": "20250213_142717_00_4001",
+  "datetime": "2025-02-13T14:27:17.012445Z",
+  "bbox": [
+   -58.7311,
+   -34.5275,
+   -58.4533,
+   -34.2685
+  ],
+  "gsd": 38.95,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250213_142717_00_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250213_142737_31_4001",
+  "datetime": "2025-02-13T14:27:37.323502Z",
+  "bbox": [
+   -58.7945,
+   -34.7392,
+   -58.5098,
+   -34.4905
+  ],
+  "gsd": 36.37,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250213_142737_31_4001_thumb.png",
+  "collections": [
+   "urban"
+  ]
+ },
+ {
+  "id": "20250219_053251_31_4001",
+  "datetime": "2025-02-19T05:32:51.310080Z",
+  "bbox": [
+   82.5437,
+   22.2316,
+   82.7823,
+   22.4934
+  ],
+  "gsd": 36.01,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250219_053251_31_4001_thumb.png",
+  "collections": [
+   "GHG-plumes"
+  ]
+ },
+ {
+  "id": "20250221_102048_16_4001",
+  "datetime": "2025-02-21T10:20:48.165094Z",
+  "bbox": [
+   17.6658,
+   44.7,
+   18.0497,
+   44.863
+  ],
+  "gsd": 39.12,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250221_102048_16_4001_thumb.png",
+  "collections": [
+   "energy-mining",
+   "natural-lands"
+  ]
+ },
+ {
+  "id": "20250222_190233_00_4001",
+  "datetime": "2025-02-22T19:02:33Z",
+  "bbox": [
+   -117.241,
+   37.6132,
+   -116.9786,
+   37.7934
+  ],
+  "gsd": 32.82,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250222_190233_00_4001_thumb.png",
+  "collections": [
+   "energy-mining",
+   "natural-lands"
+  ]
+ },
+ {
+  "id": "20250222_190237_16_4001",
+  "datetime": "2025-02-22T19:02:37.165094Z",
+  "bbox": [
+   -117.2797,
+   37.4714,
+   -117.0183,
+   37.6513
+  ],
+  "gsd": 32.79,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250222_190237_16_4001_thumb.png",
+  "collections": [
+   "energy-mining",
+   "natural-lands"
+  ]
+ },
+ {
+  "id": "20250222_190241_32_4001",
+  "datetime": "2025-02-22T19:02:41.321891Z",
+  "bbox": [
+   -117.3184,
+   37.3296,
+   -117.0575,
+   37.5094
+  ],
+  "gsd": 32.72,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250222_190241_32_4001_thumb.png",
+  "collections": [
+   "energy-mining",
+   "natural-lands"
+  ]
+ },
+ {
+  "id": "20250223_165538_00_4001",
+  "datetime": "2025-02-23T16:55:38Z",
+  "bbox": [
+   -88.5078,
+   13.4244,
+   -88.2902,
+   13.6037
+  ],
+  "gsd": 32.91,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250223_165538_00_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250223_165542_16_4001",
+  "datetime": "2025-02-23T16:55:42.165094Z",
+  "bbox": [
+   -88.5356,
+   13.2818,
+   -88.3199,
+   13.4599
+  ],
+  "gsd": 34.38,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250223_165542_16_4001_thumb.png",
+  "collections": [
+   "agriculture",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250223_165546_32_4001",
+  "datetime": "2025-02-23T16:55:46.321891Z",
+  "bbox": [
+   -88.5643,
+   13.1394,
+   -88.3475,
+   13.3161
+  ],
+  "gsd": 32.85,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250223_165546_32_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250224_145149_32_4001",
+  "datetime": "2025-02-24T14:51:49.321891Z",
+  "bbox": [
+   -63.7811,
+   -22.2751,
+   -63.5552,
+   -22.0948
+  ],
+  "gsd": 32.94,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250224_145149_32_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250225_153627_16_4001",
+  "datetime": "2025-02-25T15:36:27.165094Z",
+  "bbox": [
+   -70.3251,
+   11.5721,
+   -70.1114,
+   11.7498
+  ],
+  "gsd": 33.11,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250225_153627_16_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250226_065447_19_4001",
+  "datetime": "2025-02-26T06:54:47.197859Z",
+  "bbox": [
+   76.4479,
+   66.3273,
+   77.1497,
+   66.6146
+  ],
+  "gsd": 36.53,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250226_065447_19_4001_thumb.png",
+  "collections": [
+   "GHG-plumes"
+  ]
+ },
+ {
+  "id": "20250301_143913_32_4001",
+  "datetime": "2025-03-01T14:39:13.321891Z",
+  "bbox": [
+   -60.7518,
+   -22.2382,
+   -60.5194,
+   -22.0565
+  ],
+  "gsd": 33.53,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250301_143913_32_4001_thumb.png",
+  "collections": [
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250302_030003_92_4001",
+  "datetime": "2025-03-02T03:00:03.925880Z",
+  "bbox": [
+   117.5166,
+   0.4262,
+   117.735,
+   0.657
+  ],
+  "gsd": 33,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250302_030003_92_4001_thumb.png",
+  "collections": [
+   "energy-mining",
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250305_053421_32_4001",
+  "datetime": "2025-03-05T05:34:21.321891Z",
+  "bbox": [
+   82.5288,
+   24.0568,
+   82.7556,
+   24.2355
+  ],
+  "gsd": 32.76,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250305_053421_32_4001_thumb.png",
+  "collections": [
+   "energy-mining"
+  ]
+ },
+ {
+  "id": "20250311_061550_53_4001",
+  "datetime": "2025-03-11T06:15:50.531984Z",
+  "bbox": [
+   72.526,
+   21.7488,
+   72.7556,
+   21.962
+  ],
+  "gsd": 32.88,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250311_061550_53_4001_thumb.png",
+  "collections": [
+   "agriculture",
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250313_143015_00_4001",
+  "datetime": "2025-03-13T14:30:15.012445Z",
+  "bbox": [
+   -58.7127,
+   -34.4613,
+   -58.4514,
+   -34.2715
+  ],
+  "gsd": 33.27,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250313_143015_00_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250313_143031_92_4001",
+  "datetime": "2025-03-13T14:30:31.938325Z",
+  "bbox": [
+   -58.7511,
+   -34.6024,
+   -58.4935,
+   -34.4209
+  ],
+  "gsd": 32.6,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250313_143031_92_4001_thumb.png",
+  "collections": [
+   "urban"
+  ]
+ },
+ {
+  "id": "20250313_143048_81_4001",
+  "datetime": "2025-03-13T14:30:48.831017Z",
+  "bbox": [
+   -58.7954,
+   -34.744,
+   -58.5284,
+   -34.5674
+  ],
+  "gsd": 33.11,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250313_143048_81_4001_thumb.png",
+  "collections": [
+   "urban"
+  ]
+ },
+ {
+  "id": "20250321_054913_40_4001",
+  "datetime": "2025-03-21T05:49:13.400208Z",
+  "bbox": [
+   80.0674,
+   26.1358,
+   80.3127,
+   26.3811
+  ],
+  "gsd": 32.68,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250321_054913_40_4001_thumb.png",
+  "collections": [
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250331_113403_16_4001",
+  "datetime": "2025-03-31T11:34:03.165094Z",
+  "bbox": [
+   -5.5553,
+   37.7023,
+   -5.2604,
+   37.8871
+  ],
+  "gsd": 34.8,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250331_113403_16_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250406_170447_47_4001",
+  "datetime": "2025-04-06T17:04:47.473612Z",
+  "bbox": [
+   -91.4903,
+   -0.4448,
+   -91.2703,
+   -0.2026
+  ],
+  "gsd": 32.58,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250406_170447_47_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250407_035451_00_4001",
+  "datetime": "2025-04-07T03:54:51.012445Z",
+  "bbox": [
+   106.596,
+   10.7442,
+   106.8186,
+   10.9327
+  ],
+  "gsd": 34.66,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250407_035451_00_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250407_035509_25_4001",
+  "datetime": "2025-04-07T03:55:09.265846Z",
+  "bbox": [
+   106.566,
+   10.5863,
+   106.7795,
+   10.7772
+  ],
+  "gsd": 33.22,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250407_035509_25_4001_thumb.png",
+  "collections": [
+   "agriculture",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250407_035527_47_4001",
+  "datetime": "2025-04-07T03:55:27.486058Z",
+  "bbox": [
+   106.5301,
+   10.427,
+   106.7472,
+   10.6225
+  ],
+  "gsd": 31.82,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250407_035527_47_4001_thumb.png",
+  "collections": [
+   "agriculture",
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250407_192229_16_4001",
+  "datetime": "2025-04-07T19:22:29.163402Z",
+  "bbox": [
+   -118.8624,
+   34.6137,
+   -118.5238,
+   34.8511
+  ],
+  "gsd": 37.13,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250407_192229_16_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "fire"
+  ]
+ },
+ {
+  "id": "20250407_192235_24_4001",
+  "datetime": "2025-04-07T19:22:35.245103Z",
+  "bbox": [
+   -118.9123,
+   34.4083,
+   -118.5765,
+   34.6398
+  ],
+  "gsd": 50.22,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250407_192235_24_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "fire"
+  ]
+ },
+ {
+  "id": "20250407_192247_40_4001",
+  "datetime": "2025-04-07T19:22:47.400208Z",
+  "bbox": [
+   -119.0194,
+   33.9986,
+   -118.6763,
+   34.2199
+  ],
+  "gsd": 37.78,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250407_192247_40_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250409_150657_00_4001",
+  "datetime": "2025-04-09T15:06:57Z",
+  "bbox": [
+   -62.9418,
+   -9.2108,
+   -62.712,
+   -8.9576
+  ],
+  "gsd": 34.28,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250409_150657_00_4001_thumb.png",
+  "collections": [
+   "natural-lands"
+  ]
+ },
+ {
+  "id": "20250411_163421_16_4001",
+  "datetime": "2025-04-11T16:34:21.163402Z",
+  "bbox": [
+   -67.2843,
+   66.2161,
+   -66.6671,
+   66.4785
+  ],
+  "gsd": 33.29,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250411_163421_16_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "snow-ice"
+  ]
+ },
+ {
+  "id": "20250412_111800_00_4001",
+  "datetime": "2025-04-12T11:18:00Z",
+  "bbox": [
+   6.4179,
+   53.1345,
+   6.7944,
+   53.3253
+  ],
+  "gsd": 34.49,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250412_111800_00_4001_thumb.png",
+  "collections": [
+   "agriculture",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250412_111804_16_4001",
+  "datetime": "2025-04-12T11:18:04.165094Z",
+  "bbox": [
+   6.3573,
+   52.9949,
+   6.7325,
+   53.184
+  ],
+  "gsd": 34.17,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250412_111804_16_4001_thumb.png",
+  "collections": [
+   "agriculture",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250412_111808_32_4001",
+  "datetime": "2025-04-12T11:18:08.321891Z",
+  "bbox": [
+   6.2974,
+   52.8553,
+   6.6718,
+   53.0428
+  ],
+  "gsd": 34.5,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250412_111808_32_4001_thumb.png",
+  "collections": [
+   "agriculture",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250419_173128_87_4001",
+  "datetime": "2025-04-19T17:31:28.870339Z",
+  "bbox": [
+   -87.5654,
+   55.9386,
+   -87.1697,
+   56.1506
+  ],
+  "gsd": 33.15,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250419_173128_87_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "snow-ice"
+  ]
+ },
+ {
+  "id": "20250423_134021_00_4001",
+  "datetime": "2025-04-23T13:40:21Z",
+  "bbox": [
+   -42.9548,
+   -25.4185,
+   -42.6501,
+   -25.0579
+  ],
+  "gsd": 47.55,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250423_134021_00_4001_thumb.png",
+  "collections": [
+   "GHG-plumes"
+  ]
+ },
+ {
+  "id": "20250423_134026_31_4001",
+  "datetime": "2025-04-23T13:40:26.310080Z",
+  "bbox": [
+   -43.0308,
+   -25.7548,
+   -42.7262,
+   -25.3952
+  ],
+  "gsd": 47.61,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250423_134026_31_4001_thumb.png",
+  "collections": [
+   "GHG-plumes"
+  ]
+ },
+ {
+  "id": "20250423_193451_57_4001",
+  "datetime": "2025-04-23T19:34:51.575584Z",
+  "bbox": [
+   -122.7682,
+   45.4067,
+   -122.4346,
+   45.639
+  ],
+  "gsd": 33.79,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250423_193451_57_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250426_111955_00_4001",
+  "datetime": "2025-04-26T11:19:55Z",
+  "bbox": [
+   5.1354,
+   52.2936,
+   5.4895,
+   52.4805
+  ],
+  "gsd": 33.16,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250426_111955_00_4001_thumb.png",
+  "collections": [
+   "agriculture",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250426_111959_16_4001",
+  "datetime": "2025-04-26T11:19:59.165094Z",
+  "bbox": [
+   5.0771,
+   52.1532,
+   5.4295,
+   52.3395
+  ],
+  "gsd": 33.11,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250426_111959_16_4001_thumb.png",
+  "collections": [
+   "agriculture",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250426_112003_32_4001",
+  "datetime": "2025-04-26T11:20:03.321891Z",
+  "bbox": [
+   5.0192,
+   52.0128,
+   5.3705,
+   52.1984
+  ],
+  "gsd": 33.09,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250426_112003_32_4001_thumb.png",
+  "collections": [
+   "agriculture",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250430_101724_87_4001",
+  "datetime": "2025-04-30T10:17:24.870339Z",
+  "bbox": [
+   16.9956,
+   40.4694,
+   17.3097,
+   40.6805
+  ],
+  "gsd": 33.65,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250430_101724_87_4001_thumb.png",
+  "collections": [
+   "agriculture",
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250501_143138_87_4001",
+  "datetime": "2025-05-01T14:31:38.870339Z",
+  "bbox": [
+   -55.1389,
+   -15.5606,
+   -54.9209,
+   -15.3581
+  ],
+  "gsd": 32.7,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250501_143138_87_4001_thumb.png",
+  "collections": [
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250501_185910_74_4001",
+  "datetime": "2025-05-01T18:59:10.740678Z",
+  "bbox": [
+   -113.0407,
+   32.2066,
+   -112.7469,
+   32.4168
+  ],
+  "gsd": 35.8,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250501_185910_74_4001_thumb.png",
+  "collections": [
+   "energy-mining",
+   "natural-lands"
+  ]
+ },
+ {
+  "id": "20250503_020525_16_4001",
+  "datetime": "2025-05-03T02:05:25.165094Z",
+  "bbox": [
+   136.8192,
+   34.7773,
+   137.1154,
+   34.9628
+  ],
+  "gsd": 35.75,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250503_020525_16_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250503_064345_16_4001",
+  "datetime": "2025-05-03T06:43:45.165094Z",
+  "bbox": [
+   70.0163,
+   40.9839,
+   70.2974,
+   41.1658
+  ],
+  "gsd": 39.1,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250503_064345_16_4001_thumb.png",
+  "collections": [
+   "energy-mining",
+   "natural-lands"
+  ]
+ },
+ {
+  "id": "20250503_112042_00_4001",
+  "datetime": "2025-05-03T11:20:42Z",
+  "bbox": [
+   5.1336,
+   52.2968,
+   5.4875,
+   52.4848
+  ],
+  "gsd": 33.19,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250503_112042_00_4001_thumb.png",
+  "collections": [
+   "agriculture",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250503_112046_16_4001",
+  "datetime": "2025-05-03T11:20:46.165094Z",
+  "bbox": [
+   5.0751,
+   52.1569,
+   5.4275,
+   52.343
+  ],
+  "gsd": 33.16,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250503_112046_16_4001_thumb.png",
+  "collections": [
+   "agriculture",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250503_112050_32_4001",
+  "datetime": "2025-05-03T11:20:50.321891Z",
+  "bbox": [
+   5.0178,
+   52.017,
+   5.3683,
+   52.2024
+  ],
+  "gsd": 33.18,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250503_112050_32_4001_thumb.png",
+  "collections": [
+   "agriculture",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250504_025815_32_4001",
+  "datetime": "2025-05-04T02:58:15.321891Z",
+  "bbox": [
+   126.1928,
+   36.7922,
+   126.4528,
+   36.9722
+  ],
+  "gsd": 32.64,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250504_025815_32_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250504_030711_32_4001",
+  "datetime": "2025-05-04T03:07:11.321891Z",
+  "bbox": [
+   117.4064,
+   0.6532,
+   117.6488,
+   0.8121
+  ],
+  "gsd": 36.62,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250504_030711_32_4001_thumb.png",
+  "collections": [
+   "energy-mining",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250504_092952_87_4001",
+  "datetime": "2025-05-04T09:29:52.870339Z",
+  "bbox": [
+   19.3341,
+   -33.7639,
+   19.6143,
+   -33.554
+  ],
+  "gsd": 38.34,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250504_092952_87_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250506_044922_74_4001",
+  "datetime": "2025-05-06T04:49:22.740678Z",
+  "bbox": [
+   95.007,
+   19.0283,
+   95.2569,
+   19.2289
+  ],
+  "gsd": 33.97,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250506_044922_74_4001_thumb.png",
+  "collections": [
+   "agriculture",
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250509_090323_87_4001",
+  "datetime": "2025-05-09T09:03:23.870339Z",
+  "bbox": [
+   32.1652,
+   20.1273,
+   32.3886,
+   20.3297
+  ],
+  "gsd": 32.97,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250509_090323_87_4001_thumb.png",
+  "collections": [
+   "natural-lands"
+  ]
+ },
+ {
+  "id": "20250510_005001_00_4001",
+  "datetime": "2025-05-10T00:50:01Z",
+  "bbox": [
+   148.5483,
+   -30.608,
+   148.7888,
+   -30.4288
+  ],
+  "gsd": 32.86,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250510_005001_00_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250510_112042_16_4001",
+  "datetime": "2025-05-10T11:20:42.165094Z",
+  "bbox": [
+   7.9977,
+   56.1522,
+   8.4059,
+   56.3459
+  ],
+  "gsd": 34.13,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250510_112042_16_4001_thumb.png",
+  "collections": [
+   "agriculture",
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250511_011730_87_4001",
+  "datetime": "2025-05-11T01:17:30.870339Z",
+  "bbox": [
+   164.4745,
+   68.5628,
+   165.1225,
+   68.7886
+  ],
+  "gsd": 33.47,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250511_011730_87_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "snow-ice"
+  ]
+ },
+ {
+  "id": "20250511_074311_00_4001",
+  "datetime": "2025-05-11T07:43:11Z",
+  "bbox": [
+   53.632,
+   23.9902,
+   53.8943,
+   24.192
+  ],
+  "gsd": 34.78,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250511_074311_00_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250514_115302_15_4001",
+  "datetime": "2025-05-14T11:53:02.151168Z",
+  "bbox": [
+   -5.9077,
+   37.493,
+   -5.6187,
+   37.7241
+  ],
+  "gsd": 33.98,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250514_115302_15_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250514_193937_64_4001",
+  "datetime": "2025-05-14T19:39:37.641960Z",
+  "bbox": [
+   -122.4482,
+   37.7766,
+   -122.1559,
+   38.0123
+  ],
+  "gsd": 33.13,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250514_193937_64_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250514_223907_74_4001",
+  "datetime": "2025-05-14T22:39:07.740678Z",
+  "bbox": [
+   -158.5887,
+   65.3806,
+   -158.0326,
+   65.6018
+  ],
+  "gsd": 33.19,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250514_223907_74_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "snow-ice"
+  ]
+ },
+ {
+  "id": "20250515_080954_16_4001",
+  "datetime": "2025-05-15T08:09:54.165094Z",
+  "bbox": [
+   46.7421,
+   24.4859,
+   46.969,
+   24.6651
+  ],
+  "gsd": 32.7,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250515_080954_16_4001_thumb.png",
+  "collections": [
+   "urban"
+  ]
+ },
+ {
+  "id": "20250515_202305_00_4001",
+  "datetime": "2025-05-15T20:23:05Z",
+  "bbox": [
+   -114.0743,
+   75.2555,
+   -113.0727,
+   75.4978
+  ],
+  "gsd": 38.98,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250515_202305_00_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "snow-ice"
+  ]
+ },
+ {
+  "id": "20250516_121248_87_4001",
+  "datetime": "2025-05-16T12:12:48.870339Z",
+  "bbox": [
+   -15.6326,
+   14.0402,
+   -15.4168,
+   14.243
+  ],
+  "gsd": 32.62,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250516_121248_87_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250516_132954_74_4001",
+  "datetime": "2025-05-16T13:29:54.740678Z",
+  "bbox": [
+   -13.4057,
+   75.8072,
+   -12.2854,
+   76.0622
+  ],
+  "gsd": 35.77,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250516_132954_74_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "snow-ice"
+  ]
+ },
+ {
+  "id": "20250516_164837_16_4001",
+  "datetime": "2025-05-16T16:48:37.165094Z",
+  "bbox": [
+   -81.6937,
+   30.2591,
+   -81.4508,
+   30.4397
+  ],
+  "gsd": 32.85,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250516_164837_16_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250516_181930_35_4001",
+  "datetime": "2025-05-16T18:19:30.354656Z",
+  "bbox": [
+   -104.6729,
+   40.0226,
+   -104.3682,
+   40.2428
+  ],
+  "gsd": 34.35,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250516_181930_35_4001_thumb.png",
+  "collections": [
+   "energy-mining",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250520_171055_87_4001",
+  "datetime": "2025-05-20T17:10:55.870339Z",
+  "bbox": [
+   -83.0249,
+   49.1332,
+   -82.6894,
+   49.3424
+  ],
+  "gsd": 33.1,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250520_171055_87_4001_thumb.png",
+  "collections": [
+   "energy-mining",
+   "natural-lands"
+  ]
+ },
+ {
+  "id": "20250521_194038_10_4001",
+  "datetime": "2025-05-21T19:40:38.105080Z",
+  "bbox": [
+   -122.0342,
+   38.0505,
+   -121.7331,
+   38.2761
+  ],
+  "gsd": 34.47,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250521_194038_10_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250528_180922_74_4001",
+  "datetime": "2025-05-28T18:09:22.743839Z",
+  "bbox": [
+   -102.4183,
+   31.5361,
+   -102.1259,
+   31.7742
+  ],
+  "gsd": 35.21,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250528_180922_74_4001_thumb.png",
+  "collections": [
+   "energy-mining"
+  ]
+ },
+ {
+  "id": "20250601_104901_58_4001",
+  "datetime": "2025-06-01T10:49:01.582000Z",
+  "bbox": [
+   7.5175,
+   36.8739,
+   7.8093,
+   37.0599
+  ],
+  "gsd": 35.03,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250601_104901_58_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250606_030446_90_4001",
+  "datetime": "2025-06-06T03:04:46.903891Z",
+  "bbox": [
+   116.9334,
+   -22.7377,
+   117.1561,
+   -22.5587
+  ],
+  "gsd": 32.69,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250606_030446_90_4001_thumb.png",
+  "collections": [
+   "natural-lands"
+  ]
+ },
+ {
+  "id": "20250606_085958_90_4001",
+  "datetime": "2025-06-06T08:59:58.900000Z",
+  "bbox": [
+   39.5031,
+   46.6264,
+   39.8257,
+   46.8477
+  ],
+  "gsd": 33.32,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250606_085958_90_4001_thumb.png",
+  "collections": [
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250606_090504_75_4001",
+  "datetime": "2025-06-06T09:05:04.757094Z",
+  "bbox": [
+   33.5373,
+   27.5664,
+   33.771,
+   27.7462
+  ],
+  "gsd": 32.67,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250606_090504_75_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250606_103541_58_4001",
+  "datetime": "2025-06-06T10:35:41.582000Z",
+  "bbox": [
+   12.5426,
+   37.9261,
+   12.81,
+   38.1075
+  ],
+  "gsd": 33,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250606_103541_58_4001_thumb.png",
+  "collections": [
+   "agriculture",
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250606_152952_74_4001",
+  "datetime": "2025-06-06T15:29:52.747094Z",
+  "bbox": [
+   -68.3162,
+   -16.5231,
+   -68.1048,
+   -16.345
+  ],
+  "gsd": 32.7,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250606_152952_74_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250606_181248_58_4001",
+  "datetime": "2025-06-06T18:12:48.582000Z",
+  "bbox": [
+   -82.0919,
+   73.6077,
+   -81.2606,
+   73.8229
+  ],
+  "gsd": 33.28,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250606_181248_58_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "snow-ice"
+  ]
+ },
+ {
+  "id": "20250608_014315_58_4001",
+  "datetime": "2025-06-08T01:43:15.582000Z",
+  "bbox": [
+   136.4722,
+   -15.8836,
+   136.7277,
+   -15.7041
+  ],
+  "gsd": 36.01,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250608_014315_58_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250608_074757_58_4001",
+  "datetime": "2025-06-08T07:47:57.582000Z",
+  "bbox": [
+   51.5041,
+   17.4289,
+   51.7184,
+   17.6076
+  ],
+  "gsd": 32.81,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250608_074757_58_4001_thumb.png",
+  "collections": [
+   "natural-lands"
+  ]
+ },
+ {
+  "id": "20250608_091605_90_4001",
+  "datetime": "2025-06-08T09:16:05.903891Z",
+  "bbox": [
+   32.4423,
+   37.5138,
+   32.7058,
+   37.6949
+  ],
+  "gsd": 32.72,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250608_091605_90_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250626_082641_74_4001",
+  "datetime": "2025-06-26T08:26:41.747094Z",
+  "bbox": [
+   36.7684,
+   -17.9666,
+   36.9983,
+   -17.7784
+  ],
+  "gsd": 34.68,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250626_082641_74_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250626_144415_59_4001",
+  "datetime": "2025-06-26T14:44:15.592000Z",
+  "bbox": [
+   -58.7147,
+   -34.4691,
+   -58.4575,
+   -34.2815
+  ],
+  "gsd": 34.01,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250626_144415_59_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250626_144419_75_4001",
+  "datetime": "2025-06-26T14:44:19.757094Z",
+  "bbox": [
+   -58.7533,
+   -34.6171,
+   -58.4955,
+   -34.4305
+  ],
+  "gsd": 33.75,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250626_144419_75_4001_thumb.png",
+  "collections": [
+   "urban"
+  ]
+ },
+ {
+  "id": "20250626_144423_91_4001",
+  "datetime": "2025-06-26T14:44:23.913891Z",
+  "bbox": [
+   -58.7917,
+   -34.7643,
+   -58.5335,
+   -34.5792
+  ],
+  "gsd": 33.78,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250626_144423_91_4001_thumb.png",
+  "collections": [
+   "urban"
+  ]
+ },
+ {
+  "id": "20250703_063928_86_4001",
+  "datetime": "2025-07-03T06:39:28.862430Z",
+  "bbox": [
+   71.6155,
+   40.4148,
+   71.9474,
+   40.6907
+  ],
+  "gsd": 37.49,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250703_063928_86_4001_thumb.png",
+  "collections": [
+   "GHG-plumes",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250704_165204_61_4001",
+  "datetime": "2025-07-04T16:52:04.617000Z",
+  "bbox": [
+   -77.666,
+   43.2189,
+   -77.3589,
+   43.4159
+  ],
+  "gsd": 35.04,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250704_165204_61_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "ROCX2025"
+  ]
+ },
+ {
+  "id": "20250704_165208_78_4001",
+  "datetime": "2025-07-04T16:52:08.782094Z",
+  "bbox": [
+   -77.7132,
+   43.0682,
+   -77.4068,
+   43.2629
+  ],
+  "gsd": 35.09,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250704_165208_78_4001_thumb.png",
+  "collections": [
+   "urban",
+   "ROCX2025"
+  ]
+ },
+ {
+  "id": "20250704_165212_93_4001",
+  "datetime": "2025-07-04T16:52:12.938891Z",
+  "bbox": [
+   -77.7599,
+   42.9174,
+   -77.4543,
+   43.1108
+  ],
+  "gsd": 35.47,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250704_165212_93_4001_thumb.png",
+  "collections": [
+   "urban",
+   "ROCX2025"
+  ]
+ },
+ {
+  "id": "20250712_100036_58_4001",
+  "datetime": "2025-07-12T10:00:36.582998Z",
+  "bbox": [
+   22.8223,
+   40.5091,
+   23.1037,
+   40.6906
+  ],
+  "gsd": 33.73,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250712_100036_58_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250712_100040_74_4001",
+  "datetime": "2025-07-12T10:00:40.748092Z",
+  "bbox": [
+   22.7814,
+   40.3667,
+   23.0615,
+   40.5485
+  ],
+  "gsd": 33.27,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250712_100040_74_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250724_144826_58_4001",
+  "datetime": "2025-07-24T14:48:26.582000Z",
+  "bbox": [
+   -58.7141,
+   -34.4601,
+   -58.4542,
+   -34.2687
+  ],
+  "gsd": 34.07,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250724_144826_58_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250724_144830_83_4001",
+  "datetime": "2025-07-24T14:48:30.830064Z",
+  "bbox": [
+   -58.7534,
+   -34.6118,
+   -58.4928,
+   -34.4213
+  ],
+  "gsd": 33.94,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250724_144830_83_4001_thumb.png",
+  "collections": [
+   "urban"
+  ]
+ },
+ {
+  "id": "20250724_144835_07_4001",
+  "datetime": "2025-07-24T14:48:35.078128Z",
+  "bbox": [
+   -58.7927,
+   -34.7634,
+   -58.5315,
+   -34.574
+  ],
+  "gsd": 33.95,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250724_144835_07_4001_thumb.png",
+  "collections": [
+   "urban"
+  ]
+ },
+ {
+  "id": "20250724_190927_83_4001",
+  "datetime": "2025-07-24T19:09:27.831062Z",
+  "bbox": [
+   -112.1569,
+   38.464,
+   -111.8669,
+   38.6522
+  ],
+  "gsd": 33.95,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250724_190927_83_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "fire"
+  ]
+ },
+ {
+  "id": "20250726_192343_21_4001",
+  "datetime": "2025-07-26T19:23:43.227444Z",
+  "bbox": [
+   -118.7474,
+   34.3562,
+   -118.4716,
+   34.5643
+  ],
+  "gsd": 38.35,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250726_192343_21_4001_thumb.png",
+  "collections": [
+   "urban",
+   "fire"
+  ]
+ },
+ {
+  "id": "20250726_192403_06_4001",
+  "datetime": "2025-07-26T19:24:03.073869Z",
+  "bbox": [
+   -118.7911,
+   34.178,
+   -118.5267,
+   34.3908
+  ],
+  "gsd": 33.84,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250726_192403_06_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250726_192422_87_4001",
+  "datetime": "2025-07-26T19:24:22.887105Z",
+  "bbox": [
+   -118.8434,
+   33.9995,
+   -118.5729,
+   34.2193
+  ],
+  "gsd": 35.17,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250726_192422_87_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "fire"
+  ]
+ },
+ {
+  "id": "20250729_185845_51_4001",
+  "datetime": "2025-07-29T18:58:45.514605Z",
+  "bbox": [
+   -112.3515,
+   30.5105,
+   -112.1047,
+   30.7204
+  ],
+  "gsd": 32.92,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250729_185845_51_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250729_185850_46_4001",
+  "datetime": "2025-07-29T18:58:50.467914Z",
+  "bbox": [
+   -112.3932,
+   30.336,
+   -112.1466,
+   30.5468
+  ],
+  "gsd": 33.02,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250729_185850_46_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250801_165544_61_4001",
+  "datetime": "2025-08-01T16:55:44.617000Z",
+  "bbox": [
+   -77.667,
+   43.2159,
+   -77.3594,
+   43.4129
+  ],
+  "gsd": 35.16,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250801_165544_61_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "ROCX2025"
+  ]
+ },
+ {
+  "id": "20250801_165548_86_4001",
+  "datetime": "2025-08-01T16:55:48.865064Z",
+  "bbox": [
+   -77.7152,
+   43.063,
+   -77.4083,
+   43.2592
+  ],
+  "gsd": 34.82,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250801_165548_86_4001_thumb.png",
+  "collections": [
+   "urban",
+   "ROCX2025"
+  ]
+ },
+ {
+  "id": "20250801_165553_11_4001",
+  "datetime": "2025-08-01T16:55:53.113128Z",
+  "bbox": [
+   -77.7627,
+   42.9104,
+   -77.4567,
+   43.105
+  ],
+  "gsd": 35.26,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250801_165553_11_4001_thumb.png",
+  "collections": [
+   "urban",
+   "ROCX2025"
+  ]
+ },
+ {
+  "id": "20250806_164239_82_4001",
+  "datetime": "2025-08-06T16:42:39.829999Z",
+  "bbox": [
+   -75.89,
+   45.2154,
+   -75.5614,
+   45.4737
+  ],
+  "gsd": 33.81,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250806_164239_82_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250806_164245_93_4001",
+  "datetime": "2025-08-06T16:42:45.936591Z",
+  "bbox": [
+   -75.9611,
+   44.9974,
+   -75.6332,
+   45.2575
+  ],
+  "gsd": 34.18,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250806_164245_93_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250812_110905_82_4001",
+  "datetime": "2025-08-12T11:09:05.824999Z",
+  "bbox": [
+   8.8214,
+   48.9651,
+   9.1762,
+   49.2241
+  ],
+  "gsd": 33.82,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250812_110905_82_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250824_171853_67_4001",
+  "datetime": "2025-08-24T17:18:53.676000Z",
+  "bbox": [
+   -88.4656,
+   18.456,
+   -88.2494,
+   18.637
+  ],
+  "gsd": 32.76,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250824_171853_67_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250824_171857_84_4001",
+  "datetime": "2025-08-24T17:18:57.841094Z",
+  "bbox": [
+   -88.4959,
+   18.3102,
+   -88.28,
+   18.4911
+  ],
+  "gsd": 32.86,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250824_171857_84_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250827_091448_68_4001",
+  "datetime": "2025-08-27T09:14:48.684999Z",
+  "bbox": [
+   27.8298,
+   -15.6791,
+   28.0428,
+   -15.4994
+  ],
+  "gsd": 32.8,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250827_091448_68_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250827_091452_85_4001",
+  "datetime": "2025-08-27T09:14:52.850093Z",
+  "bbox": [
+   27.8001,
+   -15.8242,
+   28.0132,
+   -15.6447
+  ],
+  "gsd": 32.87,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250827_091452_85_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250827_091457_00_4001",
+  "datetime": "2025-08-27T09:14:57.006890Z",
+  "bbox": [
+   27.7703,
+   -15.9705,
+   27.9835,
+   -15.7893
+  ],
+  "gsd": 32.89,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250827_091457_00_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250829_092857_80_4001",
+  "datetime": "2025-08-29T09:28:57.802000Z",
+  "bbox": [
+   24.9875,
+   -17.8484,
+   25.2246,
+   -17.5937
+  ],
+  "gsd": 33.72,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250829_092857_80_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250829_092903_90_4001",
+  "datetime": "2025-08-29T09:29:03.908592Z",
+  "bbox": [
+   24.9418,
+   -18.0657,
+   25.1795,
+   -17.8124
+  ],
+  "gsd": 33.72,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250829_092903_90_4001_thumb.png",
+  "collections": [
+   "natural-lands"
+  ]
+ },
+ {
+  "id": "20250829_093133_42_4001",
+  "datetime": "2025-08-29T09:31:33.424999Z",
+  "bbox": [
+   19.8889,
+   -27.2464,
+   20.1924,
+   -26.9853
+  ],
+  "gsd": 39.61,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250829_093133_42_4001_thumb.png",
+  "collections": [
+   "natural-lands"
+  ]
+ },
+ {
+  "id": "20250831_185120_93_4001",
+  "datetime": "2025-08-31T18:51:20.930000Z",
+  "bbox": [
+   -111.4987,
+   26.0218,
+   -111.2383,
+   26.2766
+  ],
+  "gsd": 34.77,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250831_185120_93_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250902_190116_02_4001",
+  "datetime": "2025-09-02T19:01:16.026000Z",
+  "bbox": [
+   -112.1665,
+   38.5354,
+   -111.8284,
+   38.7644
+  ],
+  "gsd": 38.79,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250902_190116_02_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "fire"
+  ]
+ },
+ {
+  "id": "20250902_190121_86_4001",
+  "datetime": "2025-09-02T19:01:21.867088Z",
+  "bbox": [
+   -112.2224,
+   38.3192,
+   -111.8886,
+   38.5526
+  ],
+  "gsd": 35.01,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250902_190121_86_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "fire"
+  ]
+ },
+ {
+  "id": "20250903_164714_08_4001",
+  "datetime": "2025-09-03T16:47:14.086999Z",
+  "bbox": [
+   -77.6412,
+   43.1227,
+   -77.3019,
+   43.3797
+  ],
+  "gsd": 36.08,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250903_164714_08_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "ROCX2025"
+  ]
+ },
+ {
+  "id": "20250903_164719_92_4001",
+  "datetime": "2025-09-03T16:47:19.928087Z",
+  "bbox": [
+   -77.7078,
+   42.9039,
+   -77.3698,
+   43.1647
+  ],
+  "gsd": 36.09,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250903_164719_92_4001_thumb.png",
+  "collections": [
+   "urban",
+   "ROCX2025"
+  ]
+ },
+ {
+  "id": "20250911_191523_58_4001",
+  "datetime": "2025-09-11T19:15:23.600446Z",
+  "bbox": [
+   -112.1695,
+   40.6419,
+   -111.8548,
+   40.9098
+  ],
+  "gsd": 34.47,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250911_191523_58_4001_thumb.png",
+  "collections": [
+   "energy-mining",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250911_191547_88_4001",
+  "datetime": "2025-09-11T19:15:47.894062Z",
+  "bbox": [
+   -112.2436,
+   40.4287,
+   -111.9224,
+   40.6838
+  ],
+  "gsd": 35.86,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250911_191547_88_4001_thumb.png",
+  "collections": [
+   "energy-mining",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250914_171527_18_4001",
+  "datetime": "2025-09-14T17:15:27.194444Z",
+  "bbox": [
+   -83.3318,
+   42.1483,
+   -83.0142,
+   42.4041
+  ],
+  "gsd": 35.22,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250914_171527_18_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250914_171551_87_4001",
+  "datetime": "2025-09-14T17:15:51.886317Z",
+  "bbox": [
+   -83.4024,
+   41.9272,
+   -83.09,
+   42.1878
+  ],
+  "gsd": 33.71,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250914_171551_87_4001_thumb.png",
+  "collections": [
+   "agriculture",
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250916_144245_51_4001",
+  "datetime": "2025-09-16T14:42:45.516999Z",
+  "bbox": [
+   -58.7727,
+   -34.6435,
+   -58.4577,
+   -34.431
+  ],
+  "gsd": 38.95,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250916_144245_51_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250916_144249_76_4001",
+  "datetime": "2025-09-16T14:42:49.765063Z",
+  "bbox": [
+   -58.8156,
+   -34.8124,
+   -58.5009,
+   -34.5973
+  ],
+  "gsd": 39.41,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250916_144249_76_4001_thumb.png",
+  "collections": [
+   "urban"
+  ]
+ },
+ {
+  "id": "20250916_144254_01_4001",
+  "datetime": "2025-09-16T14:42:54.013127Z",
+  "bbox": [
+   -58.8593,
+   -34.9799,
+   -58.5443,
+   -34.7635
+  ],
+  "gsd": 39.6,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250916_144254_01_4001_thumb.png",
+  "collections": [
+   "agriculture",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250918_112731_80_4001",
+  "datetime": "2025-09-18T11:27:31.809999Z",
+  "bbox": [
+   5.9063,
+   49.189,
+   6.2589,
+   49.4472
+  ],
+  "gsd": 33.49,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250918_112731_80_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250918_112737_91_4001",
+  "datetime": "2025-09-18T11:27:37.916591Z",
+  "bbox": [
+   5.8266,
+   48.9739,
+   6.1782,
+   49.2318
+  ],
+  "gsd": 33.67,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250918_112737_91_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250919_170233_04_4001",
+  "datetime": "2025-09-19T17:02:33.040000Z",
+  "bbox": [
+   -77.6361,
+   43.1227,
+   -77.3021,
+   43.3838
+  ],
+  "gsd": 35.46,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250919_170233_04_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "ROCX2025"
+  ]
+ },
+ {
+  "id": "20250919_170238_88_4001",
+  "datetime": "2025-09-19T17:02:38.881088Z",
+  "bbox": [
+   -77.7029,
+   42.9091,
+   -77.3706,
+   43.1676
+  ],
+  "gsd": 35.54,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250919_170238_88_4001_thumb.png",
+  "collections": [
+   "urban",
+   "ROCX2025"
+  ]
+ },
+ {
+  "id": "20250920_193148_33_4001",
+  "datetime": "2025-09-20T19:31:48.345860Z",
+  "bbox": [
+   -118.7042,
+   34.0547,
+   -118.4439,
+   34.2613
+  ],
+  "gsd": 33.85,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250920_193148_33_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "urban"
+  ]
+ },
+ {
+  "id": "20250920_193207_61_4001",
+  "datetime": "2025-09-20T19:32:07.628088Z",
+  "bbox": [
+   -118.7514,
+   33.9055,
+   -118.4875,
+   34.0939
+  ],
+  "gsd": 34,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250920_193207_61_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "fire"
+  ]
+ },
+ {
+  "id": "20250926_092059_95_4001",
+  "datetime": "2025-09-26T09:20:59.952000Z",
+  "bbox": [
+   33.5115,
+   27.3336,
+   33.7576,
+   27.5651
+  ],
+  "gsd": 32.93,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250926_092059_95_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "coastal-water-bodies"
+  ]
+ },
+ {
+  "id": "20250928_111052_93_4001",
+  "datetime": "2025-09-28T11:10:52.935088Z",
+  "bbox": [
+   5.7157,
+   16.2502,
+   5.9725,
+   16.5091
+  ],
+  "gsd": 36.22,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250928_111052_93_4001_thumb.png",
+  "collections": [
+   "natural-lands"
+  ]
+ },
+ {
+  "id": "20250929_085917_91_4001",
+  "datetime": "2025-09-29T08:59:17.911094Z",
+  "bbox": [
+   36.978,
+   10.1293,
+   37.1915,
+   10.3133
+  ],
+  "gsd": 34.64,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250929_085917_91_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20250929_085922_06_4001",
+  "datetime": "2025-09-29T08:59:22.067891Z",
+  "bbox": [
+   36.9472,
+   9.9835,
+   37.1619,
+   10.1658
+  ],
+  "gsd": 33.49,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20250929_085922_06_4001_thumb.png",
+  "collections": [
+   "natural-lands",
+   "agriculture"
+  ]
+ },
+ {
+  "id": "20251001_165049_07_4001",
+  "datetime": "2025-10-01T16:50:49.072000Z",
+  "bbox": [
+   -77.6402,
+   43.124,
+   -77.3094,
+   43.3816
+  ],
+  "gsd": 36.12,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20251001_165049_07_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "ROCX2025"
+  ]
+ },
+ {
+  "id": "20251001_165054_91_4001",
+  "datetime": "2025-10-01T16:50:54.913088Z",
+  "bbox": [
+   -77.7002,
+   42.9048,
+   -77.3699,
+   43.1644
+  ],
+  "gsd": 36.2,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20251001_165054_91_4001_thumb.png",
+  "collections": [
+   "urban",
+   "ROCX2025"
+  ]
+ },
+ {
+  "id": "20251015_165255_92_4001",
+  "datetime": "2025-10-15T16:52:55.924000Z",
+  "bbox": [
+   -77.7001,
+   43.1299,
+   -77.3613,
+   43.4046
+  ],
+  "gsd": 36.38,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20251015_165255_92_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "ROCX2025"
+  ]
+ },
+ {
+  "id": "20251015_165301_89_4001",
+  "datetime": "2025-10-15T16:53:01.897840Z",
+  "bbox": [
+   -77.7704,
+   42.9056,
+   -77.4315,
+   43.1826
+  ],
+  "gsd": 36.1,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20251015_165301_89_4001_thumb.png",
+  "collections": [
+   "urban",
+   "ROCX2025"
+  ]
+ },
+ {
+  "id": "20251029_165455_83_4001",
+  "datetime": "2025-10-29T16:54:55.836999Z",
+  "bbox": [
+   -77.6989,
+   43.1341,
+   -77.3613,
+   43.4007
+  ],
+  "gsd": 35.61,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20251029_165455_83_4001_thumb.png",
+  "collections": [
+   "coastal-water-bodies",
+   "ROCX2025"
+  ]
+ },
+ {
+  "id": "20251029_165501_94_4001",
+  "datetime": "2025-10-29T16:55:01.943591Z",
+  "bbox": [
+   -77.7686,
+   42.9086,
+   -77.4334,
+   43.1775
+  ],
+  "gsd": 35.44,
+  "thumbnail": "https://storage.googleapis.com/open-cogs/planet-stac/tanager1-release2-core-imagery/thumbnail/20251029_165501_94_4001_thumb.png",
+  "collections": [
+   "urban",
+   "ROCX2025"
+  ]
+ }
+]

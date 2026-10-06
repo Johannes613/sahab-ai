@@ -9,72 +9,38 @@ configurable through environment variables.
 import json
 import math
 import os
-import random
+import threading
 import re
+import time
 from urllib.parse import urlencode
 
 import requests
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from storage.runs import list_runs_for_city
+from storage.runs import list_runs_for_city, create_run
+from pipeline.runner import run_pipeline
+from pipeline.scene_index import suggest_pair, get_scene
 
 router = APIRouter(prefix='/api/v1/chat', tags=['chat'])
 
 GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent'
-INTENT_MODEL = os.getenv('GEMINI_INTENT_MODEL', 'gemini-3.1-flash-lite')
-INSIGHT_MODEL = os.getenv('GEMINI_INSIGHT_MODEL', 'gemini-3.8-flash')
+INTENT_MODEL = os.getenv('GEMINI_INTENT_MODEL', 'gemini-flash-latest')
+INSIGHT_MODEL = os.getenv('GEMINI_INSIGHT_MODEL', 'gemini-flash-latest')
+# used only when the primary model is overloaded or too slow
+FALLBACK_MODEL = os.getenv('GEMINI_FALLBACK_MODEL', 'gemini-flash-lite-latest')
 
 # Agent names, shown as badges in the UI
 AGENT_INTENT = 'Gemini (intent)'
+AGENT_INTENT_LITE = 'Gemini Flash-Lite (intent)'
 AGENT_INTENT_FALLBACK = 'Keyword parser (intent)'
 AGENT_DATA = 'Sahab AI pipeline (data)'
 AGENT_INSIGHT = 'Gemini (insight)'
+AGENT_INSIGHT_LITE = 'Gemini Flash-Lite (insight)'
 AGENT_INSIGHT_FALLBACK = 'Template (insight)'
 AGENT_LINKS = 'Link Builder'
 
-# One representative city per Arab League member state (two for the UAE), with an
-# approximate [west, south, east, north] box. The UTM EPSG code is derived from the
-# box, so it cannot drift out of sync with the coordinates.
-ARAB_CITIES = {
-    'Abu Dhabi':   {'bbox': [54.28, 24.38, 54.55, 24.58], 'country': 'UAE'},
-    'Dubai':       {'bbox': [55.10, 25.00, 55.50, 25.35], 'country': 'UAE'},
-    'Riyadh':      {'bbox': [46.55, 24.55, 46.85, 24.85], 'country': 'Saudi Arabia'},
-    'Cairo':       {'bbox': [31.15, 29.95, 31.40, 30.15], 'country': 'Egypt'},
-    'Muscat':      {'bbox': [58.10, 23.40, 58.70, 23.80], 'country': 'Oman'},
-    'Amman':       {'bbox': [35.80, 31.85, 36.10, 32.10], 'country': 'Jordan'},
-    'Casablanca':  {'bbox': [-7.75, 33.45, -7.45, 33.70], 'country': 'Morocco'},
-    'Doha':        {'bbox': [51.40, 25.20, 51.65, 25.40], 'country': 'Qatar'},
-    'Kuwait City': {'bbox': [47.85, 29.30, 48.10, 29.50], 'country': 'Kuwait'},
-    'Manama':      {'bbox': [50.50, 26.15, 50.65, 26.30], 'country': 'Bahrain'},
-    'Baghdad':     {'bbox': [44.25, 33.25, 44.55, 33.45], 'country': 'Iraq'},
-    'Beirut':      {'bbox': [35.45, 33.83, 35.60, 33.93], 'country': 'Lebanon'},
-    'Algiers':     {'bbox': [3.00, 36.65, 3.20, 36.85], 'country': 'Algeria'},
-    'Tunis':       {'bbox': [10.10, 36.75, 10.30, 36.90], 'country': 'Tunisia'},
-    'Tripoli':     {'bbox': [13.10, 32.80, 13.30, 32.95], 'country': 'Libya'},
-    'Khartoum':    {'bbox': [32.45, 15.50, 32.65, 15.65], 'country': 'Sudan'},
-    'Sanaa':       {'bbox': [44.15, 15.30, 44.35, 15.45], 'country': 'Yemen'},
-    'Damascus':    {'bbox': [36.20, 33.45, 36.40, 33.60], 'country': 'Syria'},
-    'Ramallah':    {'bbox': [35.17, 31.88, 35.25, 31.93], 'country': 'Palestine'},
-    'Nouakchott':  {'bbox': [-16.05, 18.02, -15.90, 18.15], 'country': 'Mauritania'},
-    'Mogadishu':   {'bbox': [45.28, 2.00, 45.40, 2.10], 'country': 'Somalia'},
-    'Djibouti':    {'bbox': [43.10, 11.54, 43.20, 11.62], 'country': 'Djibouti'},
-    'Moroni':      {'bbox': [43.22, -11.73, 43.30, -11.66], 'country': 'Comoros'},
-}
-# Rabat is Morocco's capital; Casablanca is kept because it is the larger city.
-ARAB_CITIES['Rabat'] = {'bbox': [-6.95, 33.93, -6.75, 34.07], 'country': 'Morocco'}
-
-
-def utm_epsg(bbox: list[float]) -> int:
-    """WGS84 / UTM zone EPSG code for the centre of a [W, S, E, N] box."""
-    lon = (bbox[0] + bbox[2]) / 2
-    lat = (bbox[1] + bbox[3]) / 2
-    zone = int(math.floor((lon + 180) / 6)) + 1
-    return (32600 if lat >= 0 else 32700) + zone
-
-
-for _c in ARAB_CITIES.values():
-    _c['epsg'] = utm_epsg(_c['bbox'])
+from pipeline.cities import ARAB_CITIES, utm_epsg  # noqa: E402
 
 CITY_LOOKUP = {name.lower(): name for name in ARAB_CITIES}
 QUERY_TYPES = {'full_analysis', 'heat_risk_only', 'intervention_only', 'comparison', 'explanation'}
@@ -115,40 +81,80 @@ def _to_contents(messages: list[dict]) -> list[dict]:
     return contents
 
 
-def gemini_generate(model: str, messages: list[dict], system: str = '',
-                    json_mode: bool = False, max_tokens: int = 1024,
-                    temperature: float = 0.4) -> str:
-    key = os.getenv('GEMINI_API_KEY')
-    if not key:
-        raise GeminiError('GEMINI_API_KEY is not set on the server.')
-    contents = _to_contents(messages)
-    if not contents:
-        raise GeminiError('No message content to send.')
+RETRYABLE = (429, 500, 502, 503, 504)
+REQUEST_TIMEOUT = 25  # seconds; a slow or overloaded model should hand over to the fallback quickly
+
+
+def _gemini_once(model: str, contents: list[dict], system: str, json_mode: bool,
+                 max_tokens: int, temperature: float, key: str) -> str:
+    """One model, up to two attempts. Raises GeminiError."""
+    # gemini-flash-latest is a thinking model and its thinking tokens count against
+    # maxOutputTokens, so callers must leave generous headroom or answers are cut off.
     gen_cfg = {'maxOutputTokens': max_tokens, 'temperature': temperature}
     if json_mode:
         gen_cfg['responseMimeType'] = 'application/json'
     body = {'contents': contents, 'generationConfig': gen_cfg}
     if system:
         body['systemInstruction'] = {'parts': [{'text': system}]}
-    try:
-        r = requests.post(GEMINI_URL.format(model=model), json=body, timeout=60,
-                          headers={'x-goog-api-key': key, 'Content-Type': 'application/json'})
-    except requests.RequestException as exc:
-        raise GeminiError(f'Could not reach the Gemini API: {exc}') from exc
-    if r.status_code != 200:
+
+    last = 'no response'
+    for attempt, wait in enumerate((0, 2)):
+        if wait:
+            time.sleep(wait)
         try:
-            detail = r.json().get('error', {}).get('message', r.text)
-        except ValueError:
-            detail = r.text
-        raise GeminiError(f'Gemini API returned {r.status_code} for {model}: {detail[:300]}')
-    try:
-        parts = r.json()['candidates'][0]['content']['parts']
-        text = ''.join(p.get('text', '') for p in parts).strip()
-    except (KeyError, IndexError, ValueError) as exc:
-        raise GeminiError('Gemini returned no text (the response may have been blocked).') from exc
-    if not text:
-        raise GeminiError('Gemini returned an empty response.')
-    return text
+            r = requests.post(GEMINI_URL.format(model=model), json=body, timeout=REQUEST_TIMEOUT,
+                              headers={'x-goog-api-key': key, 'Content-Type': 'application/json'})
+        except requests.RequestException as exc:
+            last = f'could not reach the Gemini API ({type(exc).__name__})'
+            continue
+        if r.status_code in RETRYABLE:
+            try:
+                last = f'{r.status_code}: {r.json().get("error", {}).get("message", "")[:140]}'
+            except ValueError:
+                last = str(r.status_code)
+            continue
+        if r.status_code != 200:
+            try:
+                detail = r.json().get('error', {}).get('message', r.text)
+            except ValueError:
+                detail = r.text
+            raise GeminiError(f'Gemini API returned {r.status_code} for {model}: {detail[:300]}')
+        try:
+            cand = r.json()['candidates'][0]
+            text = ''.join(p.get('text', '') for p in cand['content']['parts']).strip()
+        except (KeyError, IndexError, ValueError) as exc:
+            raise GeminiError(f'{model} returned no text (the response may have been blocked).') from exc
+        if cand.get('finishReason') == 'MAX_TOKENS':
+            raise GeminiError(f'{model} ran out of output tokens before finishing.')
+        if not text:
+            raise GeminiError(f'{model} returned an empty response.')
+        return text
+    raise GeminiError(f'{model} unavailable: {last}')
+
+
+def gemini_generate_ex(model: str, messages: list[dict], system: str = '',
+                       json_mode: bool = False, max_tokens: int = 2048,
+                       temperature: float = 0.4) -> tuple[str, str]:
+    """Returns (text, model_that_answered). Tries `model`, then the fallback model."""
+    key = os.getenv('GEMINI_API_KEY')
+    if not key:
+        raise GeminiError('GEMINI_API_KEY is not set on the server.')
+    contents = _to_contents(messages)
+    if not contents:
+        raise GeminiError('No message content to send.')
+    errors = []
+    for m in dict.fromkeys([model, FALLBACK_MODEL]):   # primary first, fallback only if it fails
+        try:
+            return _gemini_once(m, contents, system, json_mode, max_tokens, temperature, key), m
+        except GeminiError as exc:
+            errors.append(str(exc))
+    raise GeminiError(' | '.join(errors))
+
+
+def gemini_generate(model: str, messages: list[dict], system: str = '',
+                    json_mode: bool = False, max_tokens: int = 2048,
+                    temperature: float = 0.4) -> str:
+    return gemini_generate_ex(model, messages, system, json_mode, max_tokens, temperature)[0]
 
 
 @router.post('/gemini')
@@ -199,8 +205,11 @@ def _keyword_intent(message: str) -> dict:
         qtype = 'comparison'
     elif found:
         qtype = 'intervention_only' if action else 'full_analysis'
-    elif action or any(w in low for w in ('heat', 'block', 'hot', 'risk', 'temperature', 'cool')):
-        qtype = 'full_analysis'  # a heat question without a city: the endpoint will ask which one
+    elif low.startswith(('what', 'why', 'how does', 'how do', 'explain', 'define', 'difference',
+                         'tell me about')):
+        qtype = 'explanation'
+    elif action or any(w in low for w in ('analy', 'show', 'which', 'where', 'hottest', 'block', 'risk')):
+        qtype = 'full_analysis'  # a heat request without a city: the endpoint will ask which one
     else:
         qtype = 'explanation'
     urgent = any(w in low for w in ('urgent', 'hottest', 'highest', 'most', 'worst'))
@@ -253,85 +262,86 @@ def _normalise_intent(raw: dict) -> dict:
 def parse_intent(message: str) -> tuple[dict, str, str | None]:
     """Returns (intent, agent name, warning)."""
     try:
-        raw = gemini_generate(INTENT_MODEL, [{'role': 'user', 'content': f'User message: "{message}"'}],
-                              system=_intent_system_prompt(), json_mode=True,
-                              max_tokens=600, temperature=0.0)
+        raw, used = gemini_generate_ex(
+            INTENT_MODEL, [{'role': 'user', 'content': f'User message: "{message}"'}],
+            system=_intent_system_prompt(), json_mode=True, max_tokens=2048, temperature=0.0)
         raw = re.sub(r'^```(?:json)?|```$', '', raw.strip(), flags=re.M).strip()
         data = json.loads(raw)
         if not isinstance(data, dict):
             raise ValueError('not an object')
-        return _normalise_intent(data), AGENT_INTENT, None
+        agent = AGENT_INTENT if used == INTENT_MODEL else AGENT_INTENT_LITE
+        return _normalise_intent(data), agent, None
     except (GeminiError, ValueError) as exc:
         return _normalise_intent(_keyword_intent(message)), AGENT_INTENT_FALLBACK, str(exc)
 
 
 # ------------------------------------------------------------- Agent 2: data
-def _demo_blocks(city: str, bbox: list[float], n: int = 20) -> list[dict]:
-    """Clearly-labelled simulated blocks placed inside the city's own bounding box."""
-    rng = random.Random(city)
-    blocks = []
-    for _ in range(n):
-        risk = round(rng.uniform(0.45, 0.96), 3)
-        action = rng.choices(['Tree planting', 'Cool roofs', 'Tree planting + Cool roofs'],
-                             weights=[0.45, 0.2, 0.35])[0]
-        cool = {'Tree planting': 1.8, 'Cool roofs': 1.2, 'Tree planting + Cool roofs': 3.0}[action]
-        blocks.append({
-            'city': city,
-            'lat': round(rng.uniform(bbox[1], bbox[3]), 5),
-            'lon': round(rng.uniform(bbox[0], bbox[2]), 5),
-            'risk_score': risk, 'action': action,
-            'est_cooling_c': round(cool * rng.uniform(0.8, 1.2), 2),
-            'cooling_ci_c': round(rng.uniform(0.4, 0.9), 2),
-            'dominant_material': rng.choice(['Bare soil', 'Concrete/pavement', 'Dark asphalt', 'Stressed veg']),
-            'veg_fraction': round(rng.uniform(0.02, 0.2), 3),
-            'asphalt_fraction': round(rng.uniform(0.05, 0.4), 3),
-        })
-    blocks.sort(key=lambda b: b['risk_score'], reverse=True)
-    for i, b in enumerate(blocks, 1):
-        b['rank'] = i
-    return blocks
-
-
-def _action_matches(label: str, wanted: str | None) -> bool:
+def _action_matches(b: dict, wanted: str | None) -> bool:
     if not wanted:
         return True
-    low = label.lower()
-    if wanted == 'both':
-        return '+' in low
-    return wanted.replace('_', ' ') in low
+    return b.get('action_key') == wanted
 
 
-def load_city_data(city: str, bbox: list[float], action_filter: str | None, min_risk: float) -> dict:
-    """Reuse the latest completed run for a city, otherwise return labelled demo data."""
-    completed = [r for r in list_runs_for_city(city) if r.get('status') == 'complete']
-    if completed:
-        latest = completed[0]
+def _start_analysis(city: str, bbox: list[float], epsg: int, pair: dict) -> str:
+    """Starts a real analysis in a background thread and returns its run id."""
+    payload = {
+        'city_name': city, 'bbox': bbox, 'epsg': epsg,
+        'scene_t1_id': pair.get('t1'), 'scene_t2_id': pair['t2'],
+        'block_size': 20, 'block_size_m': 600, 'min_valid_pct': 0.15,
+        'include_sentinel2': True, 'include_landsat': True,
+    }
+    run_id = create_run(city, payload)
+    threading.Thread(target=run_pipeline, args=(run_id, payload), daemon=True).start()
+    return run_id
+
+
+def resolve_city(city: str, bbox: list[float], epsg: int, action_filter: str | None,
+                 min_risk: float, start_if_missing: bool = True) -> dict:
+    """Data agent for one city. state is one of:
+    ready (completed run), pending (analysis running or just started),
+    failed (latest run failed), unavailable (no open satellite scene covers the city)."""
+    runs = list_runs_for_city(city)  # newest first
+    base = {'city': city, 'run_id': None, 'summary': {}, 'top_blocks': [], 'matching_blocks': 0,
+            'message': '', 'scene_note': ''}
+
+    complete = [r for r in runs if r.get('status') == 'complete']
+    active = [r for r in runs if r.get('status') in ('queued', 'running')]
+    if active:
+        r = active[0]
+        return {**base, 'state': 'pending', 'run_id': r['run_id'],
+                'message': f"An analysis for {city} is already running ({r.get('progress_pct', 0)}%, "
+                           f"{r.get('current_step', '')})."}
+    if complete:
+        latest = complete[0]
         blocks = []
         path = latest.get('blocks_path') or ''
         if path and os.path.exists(path):
             with open(path) as f:
                 blocks = json.load(f)
-        top = [b for b in blocks if b['risk_score'] >= min_risk and _action_matches(b['action'], action_filter)][:20]
-        return {'city': city, 'run_id': latest['run_id'], 'is_demo': False,
-                'summary': latest.get('summary') or {}, 'top_blocks': top[:5],
-                'matching_blocks': len([b for b in blocks if b['risk_score'] >= min_risk
-                                        and _action_matches(b['action'], action_filter)])}
+        match = [b for b in blocks if b['risk_score'] >= min_risk and _action_matches(b, action_filter)]
+        return {**base, 'state': 'ready', 'run_id': latest['run_id'],
+                'summary': latest.get('summary') or {}, 'top_blocks': match[:5],
+                'matching_blocks': len(match)}
+    if runs and runs[0].get('status') == 'failed':
+        err = (runs[0].get('error') or 'unknown error').split('\n')[0]
+        return {**base, 'state': 'failed', 'run_id': runs[0]['run_id'],
+                'message': f"The last analysis for {city} failed: {err}"}
 
-    blocks = _demo_blocks(city, bbox)
-    top = [b for b in blocks if b['risk_score'] >= min_risk and _action_matches(b['action'], action_filter)]
-    counts: dict[str, int] = {}
-    for b in blocks:
-        counts[b['action']] = counts.get(b['action'], 0) + 1
-    return {
-        'city': city, 'run_id': None, 'is_demo': True,
-        'summary': {
-            'city_name': city, 'total_blocks': len(blocks),
-            'high_risk_count': len([b for b in blocks if b['risk_score'] > 0.7]),
-            'action_counts': counts,
-            'note': 'Simulated demo data. No satellite analysis has been run for this city yet.',
-        },
-        'top_blocks': top[:5], 'matching_blocks': len(top),
-    }
+    pair = suggest_pair(bbox)
+    if not pair['t2']:
+        return {**base, 'state': 'unavailable',
+                'message': f"The open Tanager catalog has no satellite scene covering {city}, so I "
+                           'cannot run a real analysis there yet.'}
+    scene = get_scene(pair['t2'])
+    note = pair['note']
+    if not start_if_missing:
+        return {**base, 'state': 'unavailable', 'scene_note': note,
+                'message': f'No analysis for {city} has been run yet.'}
+    run_id = _start_analysis(city, bbox, epsg, pair)
+    return {**base, 'state': 'pending', 'run_id': run_id, 'scene_note': note,
+            'message': f"I started a satellite analysis for {city} using Tanager scene {pair['t2']} "
+                       f"(acquired {scene['datetime'][:10]}). {note} It takes a few minutes, and "
+                       'you can follow it below.'}
 
 
 # ---------------------------------------------------------- Agent 3: insight
@@ -341,22 +351,37 @@ INSIGHT_SYSTEM = (
     'Be specific about block numbers, cooling estimates and material types. Always mention '
     'the uncertainty in cooling estimates. Keep responses under 200 words. End with two '
     'actionable recommendations. Use only the numbers in the data you are given. If the data '
-    'is marked as demo or simulated, say so plainly in the first sentence and do not present '
-    'its numbers as real findings. Plain text only, no markdown headings.'
+    'says temperature is modelled rather than measured, or that exposure is a proxy, say so '
+    'briefly. Plain text only, no markdown headings. '
+    'The dashboard has exactly these features: a priority map with Risk, Materials, Temperature and Change layers; a block detail panel; a ranked table of blocks; a city history page; and a Run Analysis page. Never mention a feature that is not in this list.'
 )
 GENERAL_SYSTEM = (
     "You are Sahab AI's urban heat expert for municipal planners across the Arab world. "
     'Answer the question clearly in under 150 words, plain text, and suggest one next step '
-    'in the Sahab AI dashboard.'
+    'in the Sahab AI dashboard. '
+    'The dashboard has exactly these features: a priority map with Risk, Materials, Temperature and Change layers; a block detail panel; a ranked table of blocks; a city history page; and a Run Analysis page. Never mention a feature that is not in this list.'
 )
 
 
-def _template_narrative(message: str, datas: list[dict]) -> str:
+def _insight_payload(d: dict) -> dict:
+    s = d['summary']
+    keep = ('total_blocks', 'high_risk_count', 'mean_lst', 'max_lst', 'mean_lst_delta_top20',
+            'total_cooling_top20', 'top_action_counts', 'cooling_total_by_action', 'scene_t2_date',
+            'scene_t1_date', 'lst_source', 'population_source', 'cooling_source', 'classes_present',
+            'ndbi_lst_correlation', 'ndvi_lst_correlation', 'block_size_m')
+    top = [{k: b[k] for k in ('rank', 'risk_score', 'action', 'est_cooling_c', 'cooling_ci_c',
+                              'dominant_material', 'veg_fraction', 'lst_delta', 'action_rationale')
+            if k in b} for b in d['top_blocks']]
+    return {'city': d['city'], 'summary': {k: s[k] for k in keep if k in s},
+            'blocks_matching_filter': d['matching_blocks'], 'top_blocks': top}
+
+
+def _template_narrative(datas: list[dict]) -> str:
     parts = []
     for d in datas:
         s = d['summary']
-        tag = 'Simulated demo data' if d['is_demo'] else 'Latest satellite analysis'
-        line = f"{d['city']} ({tag}): {s.get('total_blocks', '?')} blocks, {s.get('high_risk_count', '?')} high risk."
+        line = (f"{d['city']}: {s.get('total_blocks', '?')} blocks analyzed, "
+                f"{s.get('high_risk_count', '?')} high risk, mean surface temperature {s.get('mean_lst', '?')} °C.")
         if d['top_blocks']:
             b = d['top_blocks'][0]
             line += (f" Top block #{b['rank']} (risk {b['risk_score']}): {b['action']}, "
@@ -371,29 +396,27 @@ def insight(message: str, history: list[dict], datas: list[dict], is_explanation
         msgs = history + [{'role': 'user', 'content': message}]
         system = GENERAL_SYSTEM
     else:
-        payload = [{
-            'city': d['city'], 'is_demo': d['is_demo'], 'summary': d['summary'],
-            'blocks_matching_filter': d['matching_blocks'], 'top_blocks': d['top_blocks'],
-        } for d in datas]
+        payload = [_insight_payload(d) for d in datas]
         msgs = history + [{'role': 'user', 'content':
                            f'User asked: "{message}"\n\nData:\n{json.dumps(payload, indent=1)}\n\n'
                            'Write a clear response for a city planner.'}]
         system = INSIGHT_SYSTEM
     try:
-        return gemini_generate(INSIGHT_MODEL, msgs, system=system, max_tokens=1024), AGENT_INSIGHT, None
+        text, used = gemini_generate_ex(INSIGHT_MODEL, msgs, system=system, max_tokens=4096)
+        return text, (AGENT_INSIGHT if used == INSIGHT_MODEL else AGENT_INSIGHT_LITE), None
     except GeminiError as exc:
         if is_explanation:
             return ('The explanation agent is unavailable right now. Try asking about a specific '
-                    'city, for example "Analyze heat risk in Dubai".'), AGENT_INSIGHT_FALLBACK, str(exc)
-        return _template_narrative(message, datas), AGENT_INSIGHT_FALLBACK, str(exc)
+                    'city, for example "Analyze heat risk in Riyadh".'), AGENT_INSIGHT_FALLBACK, str(exc)
+        return _template_narrative(datas), AGENT_INSIGHT_FALLBACK, str(exc)
 
 
 # ------------------------------------------------------------ Agent 4: links
-def build_links(city: str, bbox: list[float], epsg: int, run_id: str | None,
+def build_links(city: str, bbox: list[float], epsg: int, run_id: str | None, state: str,
                 action_filter: str | None, min_risk: float, has_blocks: bool) -> list[dict]:
     links = []
     base = {'city': city}
-    if run_id:
+    if run_id and state == 'ready':
         q = {'run_id': run_id, **base}
         if min_risk:
             q['min_risk'] = min_risk
@@ -408,8 +431,12 @@ def build_links(city: str, bbox: list[float], epsg: int, run_id: str | None,
             links.append({'label': f'Filter to {action_filter.replace("_", " ")} blocks',
                           'url': f'/dashboard?{urlencode({"run_id": run_id, **base, "filter_action": action_filter, "min_risk": min_risk})}',
                           'type': 'filter'})
-    run_q = {**base, 'bbox': ','.join(str(round(x, 4)) for x in bbox), 'epsg': epsg}
-    links.append({'label': f'Run fresh analysis for {city}', 'url': f'/run?{urlencode(run_q)}', 'type': 'run'})
+    if run_id and state == 'pending':
+        links.append({'label': 'Watch the analysis progress',
+                      'url': f'/run?{urlencode({"run_id": run_id})}', 'type': 'run'})
+    if state != 'unavailable':
+        run_q = {**base, 'bbox': ','.join(str(round(x, 4)) for x in bbox), 'epsg': epsg}
+        links.append({'label': f'Run a new analysis for {city}', 'url': f'/run?{urlencode(run_q)}', 'type': 'run'})
     return links
 
 
@@ -439,10 +466,10 @@ def handle_message(req: ChatRequest):
     if not intent['city']:
         return {
             'narrative': 'Which city should I look at? I can analyze any Arab capital or major city, '
-                         'for example Dubai, Riyadh, Cairo or Muscat.',
+                         'for example Riyadh, Dubai, Cairo or Muscat.',
             'intent': intent, 'data': None, 'extra_data': [], 'links': [],
             'agents_used': agents,
-            'followup_questions': ['Analyze heat risk in Dubai', 'Where should Muscat plant trees first?'],
+            'followup_questions': ['Analyze heat risk in Riyadh', 'Where should Muscat plant trees first?'],
             'warnings': warnings,
         }
     if not intent['bbox']:
@@ -456,25 +483,34 @@ def handle_message(req: ChatRequest):
 
     city, bbox, epsg = intent['city'], intent['bbox'], intent['epsg']
     af, mr = intent['action_filter'], intent['min_risk']
-    primary = load_city_data(city, bbox, af, mr)
+    primary = resolve_city(city, bbox, epsg, af, mr)
     others = []
     if qtype == 'comparison':
         for oc in intent['other_cities']:
-            others.append(load_city_data(oc, ARAB_CITIES[oc]['bbox'], af, mr))
+            others.append(resolve_city(oc, ARAB_CITIES[oc]['bbox'], ARAB_CITIES[oc]['epsg'], af, mr,
+                                       start_if_missing=False))
     agents.append(AGENT_DATA)
 
-    text, ins_agent, warn2 = insight(message, history, [primary] + others, False)
-    if warn2:
-        warnings.append(warn2)
-    agents.append(ins_agent)
+    ready = [d for d in [primary] + others if d['state'] == 'ready']
+    notes = [d['message'] for d in [primary] + others if d['state'] != 'ready' and d['message']]
+    if ready:
+        text, ins_agent, warn2 = insight(message, history, ready, False)
+        if warn2:
+            warnings.append(warn2)
+        agents.append(ins_agent)
+        if notes:
+            text += '\n\n' + ' '.join(notes)
+    else:
+        text = ' '.join(notes) or f'No results are available for {city} yet.'
 
-    links = build_links(city, bbox, epsg, primary['run_id'], af, mr, bool(primary['top_blocks']))
+    links = build_links(city, bbox, epsg, primary['run_id'], primary['state'], af, mr,
+                        bool(primary['top_blocks']))
     agents.append(AGENT_LINKS)
 
-    followups = intent['followup_questions'] or [
-        f'Which blocks in {city} need tree planting most urgently?',
-        f'How uncertain are the cooling estimates for {city}?',
-    ]
+    followups = intent['followup_questions']
+    if not followups and primary['state'] == 'ready':
+        followups = [f'Which blocks in {city} need tree planting most urgently?',
+                     f'How uncertain are the cooling estimates for {city}?']
     return {
         'narrative': text, 'intent': intent, 'data': primary, 'extra_data': others,
         'links': links, 'agents_used': agents, 'followup_questions': followups,

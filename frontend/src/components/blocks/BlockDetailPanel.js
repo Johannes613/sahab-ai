@@ -109,17 +109,17 @@ export default function BlockDetailPanel({ block: b, cityAvg, onClose }) {
           </Section>
 
           <Section title="Estimated surface cooling">
-            {block.est_cooling_C ? (
+            {block.action !== 'none' ? (
               <>
                 <p className="text-2xl font-bold">
-                  {block.est_cooling_C.toFixed(1)}{' '}
+                  {block.est_cooling_C.toFixed(2)}{' '}
                   <span className="text-base font-medium text-[var(--text-muted)]">
-                    ± {block.est_cooling_ci.toFixed(1)} °C
+                    ± {block.est_cooling_ci.toFixed(2)} °C
                   </span>
                 </p>
                 <p className="text-xs text-[var(--text-muted)] mt-1">
-                  Plausible range {(block.est_cooling_C - block.est_cooling_ci).toFixed(1)} to{' '}
-                  {(block.est_cooling_C + block.est_cooling_ci).toFixed(1)} °C (Gaussian Process, 95% interval)
+                  Plausible range {Math.max(0, block.est_cooling_C - block.est_cooling_ci).toFixed(2)} to{' '}
+                  {(block.est_cooling_C + block.est_cooling_ci).toFixed(2)} °C (Gaussian Process, 95% interval)
                 </p>
               </>
             ) : (

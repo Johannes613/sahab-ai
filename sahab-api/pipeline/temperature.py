@@ -21,7 +21,13 @@ def synthetic_lst(ndbi: np.ndarray, ndvi: np.ndarray,
 def fetch_landsat_lst(bbox: list[float], epsg: int, catalog=None,
                       date_range: str = '2024-05-01/2025-05-31'
                       ) -> tuple[np.ndarray | None, bool]:
-    """Median Landsat 8/9 surface temperature (deg C) over bbox [W, S, E, N] in EPSG:4326."""
+    """Median Landsat 8/9 surface temperature (deg C) over bbox [W, S, E, N] in EPSG:4326.
+
+    The Planetary Computer asset is `lwir11` (the Collection 2 surface-temperature band;
+    earlier code asked for `ST_B10`, which does not exist there). stackstac applies the
+    scale and offset from the STAC metadata, so values arrive in Kelvin; raw digital
+    numbers are also handled in case that ever changes.
+    """
     if catalog is None:
         return None, False
     try:
@@ -35,13 +41,16 @@ def fetch_landsat_lst(bbox: list[float], epsg: int, catalog=None,
         ls_items = list(search.items())
         if not ls_items:
             return None, False
-        ls_stack = stackstac.stack(ls_items[:12], assets=['ST_B10'],
+        ls_stack = stackstac.stack(ls_items[:12], assets=['lwir11'],
                                    bounds_latlon=bbox, resolution=30, epsg=epsg)
         comp = ls_stack.median(dim='time').compute()
-        ST_K = comp.sel(band='ST_B10').values.astype('float32') * 0.00341802 + 149.0
-        ST_C = ST_K - 273.15
-        ST_C[ST_C < 0] = np.nan
-        ST_C[ST_C > 90] = np.nan
-        return ST_C, True
-    except Exception:
+        vals = np.squeeze(comp.values).astype('float32')
+        if np.nanmedian(vals) > 1000:   # raw digital numbers
+            vals = vals * 0.00341802 + 149.0
+        ST_C = vals - 273.15
+        ST_C[(ST_C < 0) | (ST_C > 90)] = np.nan
+        return ST_C, bool(np.isfinite(ST_C).any())
+    except Exception as exc:
+        import logging
+        logging.getLogger('sahab.temperature').warning('Landsat retrieval failed: %s', exc)
         return None, False

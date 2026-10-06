@@ -2,13 +2,13 @@ import requests
 import os
 import tempfile
 
-TANAGER_BASE = 'https://www.planet.com/data/stac/tanager-core-imagery/urban'
+from pipeline.scene_index import item_url
+
 DEFAULT_CACHE = os.path.join(tempfile.gettempdir(), 'sahab_cache')
 
 
 def fetch_scene_metadata(scene_id: str) -> dict:
-    url = f'{TANAGER_BASE}/{scene_id}/{scene_id}.json'
-    r = requests.get(url, timeout=60)
+    r = requests.get(item_url(scene_id), timeout=60)
     if r.status_code == 404:
         raise ValueError(f'Scene {scene_id} was not found in the Tanager catalog.')
     r.raise_for_status()

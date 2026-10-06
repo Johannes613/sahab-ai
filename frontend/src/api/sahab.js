@@ -1,179 +1,126 @@
+// All calls go to the Sahab AI FastAPI backend. There is no mock data: every number the
+// dashboard shows comes from a real run. The adapters below translate the backend's field
+// names into the shapes the UI components use.
 import axios from 'axios';
-import {
-  MOCK_CITIES, MOCK_RUNS, buildBlocks, buildSummary, makeRunRecord,
-} from '../mock/mockData';
 
-const BASE = process.env.REACT_APP_API_URL;
-export const USE_MOCK = !BASE;
+export const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const api = axios.create({ baseURL: `${API_BASE}/api/v1` });
 
-const api = axios.create({ baseURL: BASE ? `${BASE}/api/v1` : undefined });
+const ACTION_LABELS = {
+  tree_planting: 'Tree planting',
+  cool_roofs: 'Cool roofs',
+  both: 'Both',
+};
 
-// ---- mock helpers ---------------------------------------------------------
-const delay = (v, ms = 250) => new Promise((res) => setTimeout(() => res(v), ms));
-const mockStarts = {};
-const mockPayloads = {};
-const PIPELINE_MS = 14000;
-
-export const PIPELINE_STAGES = [
-  'Loading data',
-  'Masking',
-  'Computing indices',
-  'Training classifier',
-  'Computing temperature',
-  'Scoring risk',
-  'Generating outputs',
-];
-
-function mockBlocksFor(runId) {
-  const payload = mockPayloads[runId];
-  const run = MOCK_RUNS.find((r) => r.run_id === runId);
-  const city = MOCK_CITIES.find((c) => c.id === run?.city_id);
-  return buildBlocks(runId, payload?.aoi_bbox || city?.aoi_bbox, 180, run?.risk_scale || 1);
+// ---- adapters -------------------------------------------------------------
+function adaptBlock(b) {
+  return {
+    id: b.id,
+    rank: b.rank,
+    lat: b.lat,
+    lon: b.lon,
+    risk_score: b.risk_score,
+    action: b.action_key,
+    est_cooling_C: b.est_cooling_c,
+    est_cooling_ci: b.cooling_ci_c,
+    dominant_material: b.dominant_material,
+    veg_fraction: b.veg_fraction,
+    asphalt_fraction: b.asphalt_fraction,
+    materials: b.materials,
+    population_exposure: b.population_exposure,
+    lst_delta: b.lst_delta,
+    area_m2: b.area_m2,
+    action_rationale: b.action_rationale,
+  };
 }
 
-function applyFilters(blocks, p = {}) {
-  let out = blocks;
-  if (p.action) out = out.filter((b) => b.action === p.action);
-  if (p.min_risk) out = out.filter((b) => b.risk_score >= Number(p.min_risk));
-  if (p.min_population) out = out.filter((b) => b.population >= Number(p.min_population));
-  if (p.sort === 'risk_desc') out = [...out].sort((a, b) => b.risk_score - a.risk_score);
-  if (p.limit) out = out.slice(0, Number(p.limit));
-  return out;
+function adaptSummary(s) {
+  const totals = s.cooling_total_by_action || {};
+  return {
+    ...s,
+    cooling_by_action: Object.keys(ACTION_LABELS).map((k) => ({
+      action: ACTION_LABELS[k],
+      cooling: totals[k] || 0,
+    })),
+    trend: s.trend || [],
+  };
 }
 
-// ---- API ------------------------------------------------------------------
-export const runAnalysis = (payload) => {
-  if (USE_MOCK) {
-    const runId = `run-${Date.now()}`;
-    mockStarts[runId] = Date.now();
-    mockPayloads[runId] = payload;
-    const bbox = payload.aoi_bbox || MOCK_CITIES[0].aoi_bbox;
-    MOCK_RUNS.unshift(
-      makeRunRecord(
-        {
-          run_id: runId,
-          city_id: payload.city_id || 'custom',
-          city_name: payload.city_name,
-          date: new Date().toISOString().slice(0, 10),
-          scene_dates: [payload.scene_t1_id || 'T1', payload.scene_t2_id || 'T2'],
-          mean_lst: 44.6,
-          risk_scale: 1,
-        },
-        bbox
-      )
-    );
-    return delay({ run_id: runId, status: 'queued' });
-  }
-  return api.post('/analysis/run', payload).then((r) => r.data);
+function adaptRun(r) {
+  return {
+    run_id: r.run_id,
+    city_id: r.city_name,
+    city_name: r.city_name,
+    date: (r.created_at || '').slice(0, 10),
+    scene_dates: [r.scene_t1_date || 'no earlier scene', r.scene_t2_date || ''],
+    mean_lst: r.mean_lst,
+    high_risk_count: r.high_risk_count,
+    top_action_count: r.top_action_count,
+    total_blocks: r.total_blocks,
+    mean_lst_delta_top20: r.mean_lst_delta_top20,
+    status: r.status,
+  };
+}
+
+// ---- analysis -------------------------------------------------------------
+export const runAnalysis = (p) =>
+  api
+    .post('/analysis/run', {
+      city_name: p.city_name,
+      bbox: p.aoi_bbox,
+      scene_t1_id: p.scene_t1_id || null,
+      scene_t2_id: p.scene_t2_id,
+      block_size_m: p.block_size,
+      min_valid_pct: p.min_valid_pct / 100,
+      include_sentinel2: p.include_sentinel,
+      include_landsat: p.include_landsat,
+      epsg: p.epsg || null,
+    })
+    .then((r) => ({ run_id: r.data.run_id, status: r.data.status }));
+
+export const getStatus = (runId) =>
+  api.get(`/analysis/status/${runId}`).then(({ data: d }) => ({
+    run_id: d.run_id,
+    status: d.status,
+    progress_pct: d.progress_pct,
+    message:
+      d.status === 'failed' || d.status === 'cancelled'
+        ? (d.error || d.current_step || '').split('\n')[0]
+        : d.current_step,
+  }));
+
+export const cancelRun = (runId) => api.delete(`/analysis/${runId}`).then((r) => r.data);
+
+// ---- results --------------------------------------------------------------
+export const getSummary = (runId) =>
+  api.get(`/results/${runId}/summary`).then((r) => adaptSummary(r.data));
+
+export const getBlocks = (runId, params = {}) => {
+  const q = { limit: params.limit || 50 };
+  if (params.action) q.action = params.action;
+  if (params.min_risk) q.min_risk = params.min_risk;
+  if (params.min_exposure) q.min_exposure = params.min_exposure;
+  return api.get(`/results/${runId}/blocks`, { params: q }).then((r) => r.data.blocks.map(adaptBlock));
 };
 
-export const getStatus = (runId) => {
-  if (USE_MOCK) {
-    const start = mockStarts[runId];
-    if (!start) return delay({ run_id: runId, status: 'complete', progress_pct: 100, message: 'Done' }, 50);
-    const pct = Math.min(100, Math.round(((Date.now() - start) / PIPELINE_MS) * 100));
-    const done = pct >= 100;
-    return delay(
-      {
-        run_id: runId,
-        status: done ? 'complete' : 'running',
-        progress_pct: pct,
-        message: done
-          ? 'Done'
-          : PIPELINE_STAGES[Math.min(PIPELINE_STAGES.length - 1, Math.floor((pct / 100) * PIPELINE_STAGES.length))],
-      },
-      50
-    );
-  }
-  return api.get(`/analysis/status/${runId}`).then((r) => r.data);
-};
+export const getImages = (runId) => api.get(`/results/${runId}/images`).then((r) => r.data);
+export const getMapUrl = (runId) => api.get(`/results/${runId}/map_url`).then((r) => r.data);
 
-export const cancelRun = (runId) => {
-  if (USE_MOCK) {
-    delete mockStarts[runId];
-    return delay({ ok: true }, 50);
-  }
-  return api.delete(`/analysis/${runId}`).then((r) => r.data);
-};
+// ---- cities and history ---------------------------------------------------
+export const getCities = () => api.get('/cities').then((r) => r.data);
+export const getCityCatalog = () => api.get('/cities/catalog').then((r) => r.data);
 
-export const getSummary = (runId) => {
-  if (USE_MOCK) {
-    const run = MOCK_RUNS.find((r) => r.run_id === runId);
-    return delay(buildSummary(mockBlocksFor(runId), run));
-  }
-  return api.get(`/results/${runId}/summary`).then((r) => r.data);
-};
+export const getCityHistory = (cityName) =>
+  api
+    .get(`/cities/${encodeURIComponent(cityName)}/history`)
+    .then((r) => r.data.filter((x) => x.status === 'complete').map(adaptRun));
 
-export const getBlocks = (runId, params) => {
-  if (USE_MOCK) return delay(applyFilters(mockBlocksFor(runId), params), 120);
-  return api.get(`/results/${runId}/blocks`, { params }).then((r) => r.data);
-};
+export const getAllRuns = () =>
+  api.get('/runs', { params: { status: 'complete' } }).then((r) => r.data.map(adaptRun));
 
-export const getGeoJSON = (runId) => {
-  if (USE_MOCK) {
-    const blocks = mockBlocksFor(runId);
-    return delay({
-      type: 'FeatureCollection',
-      features: blocks.map((b) => ({
-        type: 'Feature',
-        geometry: { type: 'Point', coordinates: [b.lon, b.lat] },
-        properties: b,
-      })),
-    });
-  }
-  return api.get(`/results/${runId}/geojson`).then((r) => r.data);
-};
+// ---- satellite scenes -----------------------------------------------------
+export const getSceneInfo = (sceneId) =>
+  api.get(`/scenes/${encodeURIComponent(sceneId)}`).then((r) => r.data);
 
-export const getImages = (runId) => {
-  if (USE_MOCK) return delay({ material_map: null, temperature_map: null, risk_map: null, change_map: null });
-  return api.get(`/results/${runId}/images`).then((r) => r.data);
-};
-
-export const getMapUrl = (runId) => {
-  if (USE_MOCK) return delay({ url: null });
-  return api.get(`/results/${runId}/map_url`).then((r) => r.data);
-};
-
-export const getCities = () => {
-  if (USE_MOCK) return delay([...MOCK_CITIES]);
-  return api.get('/cities').then((r) => r.data);
-};
-
-export const addCity = (payload) => {
-  if (USE_MOCK) {
-    const city = { id: payload.name.toLowerCase().replace(/\s+/g, '-'), last_run: null, ...payload };
-    MOCK_CITIES.push(city);
-    return delay(city);
-  }
-  return api.post('/cities', payload).then((r) => r.data);
-};
-
-export const getCityHistory = (cityId) => {
-  if (USE_MOCK) return delay(MOCK_RUNS.filter((r) => r.city_id === cityId));
-  return api.get(`/cities/${cityId}/history`).then((r) => r.data);
-};
-
-export const getAllRuns = () => {
-  if (USE_MOCK) return delay([...MOCK_RUNS]);
-  return api.get('/cities').then(async (r) => {
-    const hist = await Promise.all(r.data.map((c) => getCityHistory(c.id)));
-    return hist.flat();
-  });
-};
-
-// Thumbnail and acquisition date for a Tanager scene. In production the backend
-// reads this from Planet's STAC item (GET /api/v1/scenes/{scene_id}).
-export const getSceneInfo = (sceneId) => {
-  if (USE_MOCK) {
-    if (!/^[\w-]{6,}$/.test(sceneId)) return Promise.reject(new Error('not found'));
-    const hue = Array.from(sceneId).reduce((a, c) => a + c.charCodeAt(0), 0) % 360;
-    const svg =
-      `<svg xmlns='http://www.w3.org/2000/svg' width='320' height='180'>` +
-      `<defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>` +
-      `<stop offset='0' stop-color='hsl(${hue},35%,38%)'/><stop offset='1' stop-color='hsl(${(hue + 50) % 360},45%,60%)'/>` +
-      `</linearGradient></defs><rect width='320' height='180' fill='url(#g)'/>` +
-      `<text x='160' y='95' fill='white' font-size='13' text-anchor='middle' font-family='monospace'>mock thumbnail</text></svg>`;
-    return delay({ scene_id: sceneId, acquired: '2026-07-09', thumbnail_url: `data:image/svg+xml;utf8,${encodeURIComponent(svg)}` }, 400);
-  }
-  return api.get(`/scenes/${encodeURIComponent(sceneId)}`).then((r) => r.data);
-};
+export const searchScenes = (bbox) =>
+  api.get('/scenes', { params: { bbox: bbox.join(',') } }).then((r) => r.data);

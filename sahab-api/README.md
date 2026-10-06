@@ -15,8 +15,7 @@ uvicorn main:app --reload --port 8000
 
 Interactive docs: http://localhost:8000/docs
 
-Python 3.11 is the target version. On newer Pythons, `rasterio==1.3.11` has no wheel; use
-`rasterio>=1.4` there.
+Python 3.11 is the target version; 3.13 was also tested.
 
 ## Try it
 
@@ -32,30 +31,55 @@ curl http://localhost:8000/api/v1/results/<run_id>/summary
 
 | Method | Path | Returns |
 |---|---|---|
-| POST | `/api/v1/analysis/run` | run status (`run_id`, `queued`) |
+| POST | `/api/v1/analysis/run` | starts a run (`scene_t1_id` is optional) |
 | GET | `/api/v1/analysis/status/{run_id}` | status, `progress_pct`, `current_step` |
-| GET | `/api/v1/results/{run_id}/summary` | run summary and classifier metrics |
-| GET | `/api/v1/results/{run_id}/blocks` | paged, filterable block list |
+| DELETE | `/api/v1/analysis/{run_id}` | cancels a queued or running analysis |
+| GET | `/api/v1/results/{run_id}/summary` | run summary, scores and data provenance |
+| GET | `/api/v1/results/{run_id}/blocks` | ranked blocks (`limit`, `min_risk`, `min_exposure`, `action`) |
 | GET | `/api/v1/results/{run_id}/geojson` | GeoJSON FeatureCollection |
-| GET | `/api/v1/cities` | city names with runs |
-| GET | `/api/v1/cities/{city_name}/history` | past runs for a city |
+| GET | `/api/v1/results/{run_id}/images` | map layer PNGs and their bounds |
+| GET | `/api/v1/results/{run_id}/map_url` | the standalone HTML map |
+| GET | `/api/v1/cities` | cities with completed runs |
+| GET | `/api/v1/cities/catalog` | Arab cities the app can locate, with satellite coverage counts |
+| GET | `/api/v1/cities/{city}/history` | runs for a city |
+| GET | `/api/v1/runs` | all runs (`?status=complete`) |
+| GET | `/api/v1/scenes?bbox=w,s,e,n` | open Tanager scenes over an area, plus a suggested pair |
+| GET | `/api/v1/scenes/{scene_id}` | one scene: date, thumbnail, footprint |
 | POST | `/api/v1/chat/message` | agent chat: intent, data, insight and deep links |
 | POST | `/api/v1/chat/gemini` | server-side Gemini proxy (keeps the key off the browser) |
-| GET | `/health` | liveness check |
+| GET | `/health` | liveness, model and Gemini status |
+
+Generated map layers and HTML maps are served from `/files/{run_id}/`.
+
+## Models
+
+`artifacts/sahab_classifier.joblib` (voting ensemble, scaler, label encoder) and
+`artifacts/sahab_cooling.joblib` (Gaussian Process) come from the training notebook. They must be read
+with the library versions pinned in `requirements.txt` (scikit-learn 1.6.1, XGBoost 3.1.2): older
+XGBoost versions load the file but quietly degrade the XGBoost member (macro F1 0.84 instead of 0.98).
+`GET /health` reports whether both loaded. If the classifier cannot load, the pipeline trains on the
+scene instead and says so in the run summary.
+
+With real Landsat temperatures the cooling model is fitted on the scene being analysed; the saved model
+is used only when Landsat is unavailable, because it was trained on a modelled temperature surface.
+
+## Scene index
+
+`data/tanager_scene_index.json` is a crawl of Planet's open Tanager catalog. Rebuild it with
+`python scripts/build_scene_index.py`.
 
 ## Agent chat (Gemini)
 
 `POST /api/v1/chat/message` runs four agents in sequence: an intent parser (Gemini), a data agent
-(reuses the latest completed run for the city, otherwise returns clearly labelled simulated data),
-an insight agent (Gemini) and a link builder.
+(uses the latest completed run for the city, follows a run already in progress, or starts a real
+analysis when an open scene covers the city), an insight agent (Gemini) and a link builder. Cities with
+no satellite coverage get an honest "no coverage" reply, never invented numbers.
 
-Set `GEMINI_API_KEY` in `.env` (never in the frontend). Models are configurable through
-`GEMINI_INTENT_MODEL` and `GEMINI_INSIGHT_MODEL`; Google retires models, and `gemini-2.0-flash` is
-already shut down. The calls use the REST `generateContent` endpoint through `requests`, because
-the `google-generativeai` SDK reached end of life in November 2025.
-
-Without a key the chat still answers: it falls back to a keyword parser and a plain data readout,
-and the response says which agents actually ran.
+Set `GEMINI_API_KEY` in `.env` (never in the frontend). Both language agents use
+`gemini-flash-latest`. It is a thinking model, so output limits are generous, and if it is overloaded or
+slow the call falls back to `gemini-flash-lite-latest` (the response shows which model answered). The
+calls use the REST `generateContent` endpoint through `requests`, because the `google-generativeai` SDK
+reached end of life in November 2025.
 
 ## Deploy to Render.com
 

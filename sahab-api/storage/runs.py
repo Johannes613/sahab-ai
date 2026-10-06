@@ -49,6 +49,54 @@ def get_run(run_id: str) -> dict | None:
     return None
 
 
+class RunCancelled(Exception):
+    pass
+
+
+def cancel_run(run_id: str) -> bool:
+    run = get_run(run_id)
+    if not run or run['status'] in ('complete', 'failed', 'cancelled'):
+        return False
+    update_run(run_id, status='cancelled', current_step='Cancelled',
+               completed_at=datetime.utcnow().isoformat())
+    return True
+
+
+def is_cancelled(run_id: str) -> bool:
+    run = _runs.get(run_id)
+    return bool(run and run['status'] == 'cancelled')
+
+
+def recover_interrupted_runs() -> int:
+    """Runs left 'queued' or 'running' by a previous server process can never finish."""
+    n = 0
+    for path in _run_files():
+        try:
+            with open(path) as f:
+                run = json.load(f)
+        except Exception:
+            continue
+        if run.get('status') in ('queued', 'running'):
+            run.update(status='failed', current_step='Failed',
+                       error='The server restarted while this run was in progress. Please start it again.',
+                       completed_at=datetime.utcnow().isoformat())
+            _runs[run['run_id']] = run
+            _persist(run['run_id'])
+            n += 1
+    return n
+
+
+def list_all_runs() -> list[dict]:
+    runs = []
+    for path in _run_files():
+        try:
+            with open(path) as f:
+                runs.append(json.load(f))
+        except Exception:
+            continue
+    return sorted(runs, key=lambda r: r.get('created_at', ''), reverse=True)
+
+
 def _run_files():
     # *_blocks.json files hold block lists, not run records
     return [p for p in RESULTS_DIR.glob('*.json') if not p.name.endswith('_blocks.json')]

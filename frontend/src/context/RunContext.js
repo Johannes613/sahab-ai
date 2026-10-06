@@ -5,7 +5,12 @@ const KEY = 'sahab-current-run';
 
 function read() {
   try {
-    return localStorage.getItem(KEY) || null;
+    const id = localStorage.getItem(KEY) || null;
+    if (id === 'demo-dubai-2026-10' || id === 'demo-riyadh-2025-05') {
+      localStorage.removeItem(KEY);
+      return null;
+    }
+    return id;
   } catch (e) {
     return null;
   }

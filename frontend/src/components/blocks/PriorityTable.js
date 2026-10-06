@@ -30,14 +30,14 @@ export default function PriorityTable({ blocks, onView }) {
       {
         accessorKey: 'est_cooling_C',
         header: 'Est. Cooling (°C)',
-        cell: (c) => (c.getValue() ? c.getValue().toFixed(1) : '-'),
+        cell: ({ row }) => (row.original.action === 'none' ? '-' : row.original.est_cooling_C.toFixed(2)),
       },
       {
         accessorKey: 'est_cooling_ci',
         header: 'Cooling interval',
         cell: ({ row }) => {
-          const { est_cooling_C: c, est_cooling_ci: ci } = row.original;
-          return c ? `${c.toFixed(1)} ± ${ci.toFixed(1)} °C` : '-';
+          const { action, est_cooling_C: c, est_cooling_ci: ci } = row.original;
+          return action === 'none' ? '-' : `${c.toFixed(2)} ± ${ci.toFixed(2)} °C`;
         },
       },
       {

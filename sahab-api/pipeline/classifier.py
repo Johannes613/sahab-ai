@@ -125,3 +125,38 @@ def train_ensemble(feats_T2: np.ndarray, seed_T2: np.ndarray,
     }
 
     return material_map, metrics, scaler, le, ensemble
+
+
+def classify_with_saved_model(feats: np.ndarray, valid_mask: np.ndarray, bundle: dict) -> tuple:
+    """Apply the notebook-trained ensemble to a scene (no training).
+
+    Returns (material_map, metrics). material_map holds the original class ids
+    (0..6, -1 where there is no valid pixel). Metrics are the notebook's validation scores.
+    """
+    H, W, F = feats.shape
+    flat = feats.reshape(-1, F)
+    ok = np.all(np.isfinite(flat), axis=1) & valid_mask.flatten()
+    enc_to_orig = np.asarray(bundle['label_encoder'].classes_, dtype=np.int16)
+
+    material = np.full(H * W, -1, dtype=np.int8)
+    idx = np.flatnonzero(ok)
+    for start in range(0, len(idx), PREDICT_CHUNK):
+        sel = idx[start:start + PREDICT_CHUNK]
+        enc = bundle['ensemble'].predict(bundle['scaler'].transform(flat[sel]))
+        material[sel] = enc_to_orig[enc]
+    material = material.reshape(H, W)
+
+    present = [CLASS_NAMES[c] for c in np.unique(material[material >= 0])]
+    m = bundle.get('metrics', {})
+    metrics = {
+        'classes_present': present,
+        'cohen_kappa_ensemble': float(m.get('cohen_kappa_ensemble') or 0.0),
+        'cv_macro_f1_xgb': float(m.get('cv_macro_f1_xgb') or 0.0),
+        'cv_macro_f1_svm': float(m.get('cv_macro_f1_svm') or 0.0),
+        'cv_macro_f1_ensemble': float(m.get('cv_macro_f1_ensemble') or 0.0),
+        'label_source': m.get('label_source', 'rule-based seed labels (pseudo-labels)'),
+        'model_source': 'saved notebook model (artifacts/sahab_classifier.joblib)',
+        'model_trained_on_scene': m.get('train_scene'),
+        'model_classes': bundle.get('classes_present'),
+    }
+    return material, metrics

@@ -30,7 +30,7 @@ export default function ImageViewer({ images }) {
           </button>
         ))}
       </div>
-      <img src={images[current]} alt={current} className="w-full rounded-lg border border-[var(--border)]" />
+      <img src={images[current]} alt={current} className="w-full rounded-lg border border-[var(--border)] bg-gray-300 dark:bg-gray-700" />
     </Card>
   );
 }

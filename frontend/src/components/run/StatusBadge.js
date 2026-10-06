@@ -6,6 +6,7 @@ const MAP = {
   running: ['accent', 'Running'],
   complete: ['green', 'Complete'],
   failed: ['red', 'Failed'],
+  cancelled: ['yellow', 'Cancelled'],
 };
 
 export default function StatusBadge({ status }) {

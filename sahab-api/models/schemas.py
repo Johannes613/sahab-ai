@@ -7,19 +7,20 @@ import uuid
 class AnalysisRequest(BaseModel):
     city_name: str
     bbox: list[float] = Field(min_length=4, max_length=4)
-    scene_t1_id: str
+    scene_t1_id: Optional[str] = None   # optional: without it there is no change detection
     scene_t2_id: str
-    block_size: int = Field(default=50, ge=20, le=200)
-    min_valid_pct: float = Field(default=0.30, ge=0.10, le=0.95)
+    block_size: int = Field(default=50, ge=4, le=200)             # pixels
+    block_size_m: Optional[int] = Field(default=None, ge=60, le=6000)  # metres; overrides block_size
+    min_valid_pct: float = Field(default=0.30, ge=0.05, le=0.95)  # fraction of valid T2 pixels
     include_sentinel2: bool = True
     include_landsat: bool = True
-    epsg: int = 32640
+    epsg: Optional[int] = None          # derived from the scene location when omitted
 
 
 class RunStatus(BaseModel):
     run_id: str
     city_name: str
-    status: Literal['queued', 'running', 'complete', 'failed']
+    status: Literal['queued', 'running', 'complete', 'failed', 'cancelled']
     progress_pct: int = 0
     current_step: str = ''
     created_at: datetime
@@ -75,3 +76,6 @@ class CityHistoryEntry(BaseModel):
     high_risk_count: int
     total_blocks: int
     status: str
+    city_name: str = ''
+    top_action_count: int = 0
+    mean_lst_delta_top20: Optional[float] = None

@@ -7,7 +7,7 @@ import {
 import { useRun } from '../context/RunContext';
 import { useBlocks, useSummary } from '../hooks/useBlocks';
 import { useCities } from '../hooks/useCity';
-import { getAllRuns, getImages, getMapUrl, USE_MOCK } from '../api/sahab';
+import { getAllRuns, getImages, getMapUrl } from '../api/sahab';
 import StatCard from '../components/shared/StatCard';
 import DownloadButton from '../components/shared/DownloadButton';
 import ImageViewer from '../components/shared/ImageViewer';
@@ -25,9 +25,6 @@ import PriorityTable from '../components/blocks/PriorityTable';
 import BlockCard from '../components/blocks/BlockCard';
 import BlockDetailPanel from '../components/blocks/BlockDetailPanel';
 
-const DEMO_RUN = 'demo-dubai-2026-10';
-const avg = (xs) => (xs.length ? xs.reduce((s, v) => s + v, 0) / xs.length : 0);
-
 export default function Dashboard() {
   const { runId: ctxRunId, setRunId } = useRun();
   const [params, setParams] = useSearchParams();
@@ -35,7 +32,9 @@ export default function Dashboard() {
   const runFromUrl = params.get('run') || params.get('run_id');
   const cityFromChat = params.get('city');
   const highlightRank = parseInt(params.get('highlight_block') || '0', 10);
-  const runId = runFromUrl || ctxRunId || (USE_MOCK ? DEMO_RUN : null);
+  const [runs, setRuns] = useState(null); // null until loaded
+  const latestRunId = runs && runs.length ? runs[0].run_id : null;
+  const runId = runFromUrl || ctxRunId || latestRunId;
   const paramsRef = useRef(params);
   paramsRef.current = params;
 
@@ -45,20 +44,19 @@ export default function Dashboard() {
 
   const { cities } = useCities();
   const { summary, error } = useSummary(runId);
-  const { blocks: allBlocks } = useBlocks(runId, { limit: 1000 });
-  const [filters, setFilters] = useState({ action: '', min_risk: 0, min_population: 0 });
+  const { blocks: topBlocks } = useBlocks(runId, { limit: 5 });
+  const [filters, setFilters] = useState({ action: '', min_risk: 0, min_exposure: 0 });
   const [search, setSearch] = useState('');
   const [focus, setFocus] = useState(null);
   const [selected, setSelected] = useState(null);
   const [images, setImages] = useState(null);
-  const [runs, setRuns] = useState([]);
   const [mapUrl, setMapUrl] = useState(null);
 
   const serverFilters = useMemo(() => {
     const f = { limit: 1000 };
     if (filters.action) f.action = filters.action;
     if (filters.min_risk) f.min_risk = filters.min_risk;
-    if (filters.min_population) f.min_population = filters.min_population;
+    if (filters.min_exposure) f.min_exposure = filters.min_exposure;
     return f;
   }, [filters]);
   const { blocks: filtered, loading } = useBlocks(runId, serverFilters);
@@ -73,7 +71,7 @@ export default function Dashboard() {
     setFilters({
       action: ['tree_planting', 'cool_roofs', 'both'].includes(fa) ? fa : '',
       min_risk: Number.isFinite(mr) ? Math.min(1, Math.max(0, mr)) : 0,
-      min_population: 0,
+      min_exposure: 0,
     });
     setSearch('');
   }, [runId]);
@@ -88,25 +86,25 @@ export default function Dashboard() {
     getAllRuns().then(setRuns).catch(() => setRuns([]));
   }, [runId]);
 
-  const runMeta = runs.find((r) => r.run_id === runId) || null;
+  const runMeta = (runs || []).find((r) => r.run_id === runId) || null;
   const previousRun = useMemo(() => {
     if (!runMeta) return null;
     return (
-      runs
+      (runs || [])
         .filter((r) => r.city_id === runMeta.city_id && r.date < runMeta.date)
         .sort((a, b) => b.date.localeCompare(a.date))[0] || null
     );
   }, [runs, runMeta]);
 
   const cityAvg = useMemo(() => {
-    if (!allBlocks.length) return null;
+    if (!summary || summary.city_mean_risk == null) return null;
     return {
-      risk_score: avg(allBlocks.map((b) => b.risk_score)),
-      lst_delta: avg(allBlocks.map((b) => b.lst_delta)),
-      vegetation: avg(allBlocks.map((b) => b.materials.vegetation)),
-      population_exposure: avg(allBlocks.map((b) => b.population_exposure)),
+      risk_score: summary.city_mean_risk,
+      lst_delta: 0, // block temperatures are measured relative to the scene mean
+      vegetation: summary.city_mean_vegetation,
+      population_exposure: summary.city_mean_exposure,
     };
-  }, [allBlocks]);
+  }, [summary]);
 
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -125,20 +123,20 @@ export default function Dashboard() {
   // highlight_block=N: fly to the block with rank N and open its detail panel, once per run
   const highlighted = useRef('');
   useEffect(() => {
-    if (!highlightRank || !allBlocks.length) return;
+    if (!highlightRank || !filtered.length) return;
     const key = `${runId}:${highlightRank}`;
     if (highlighted.current === key) return;
-    const block = allBlocks.find((b) => b.rank === highlightRank);
+    const block = filtered.find((b) => b.rank === highlightRank);
     if (block) {
       highlighted.current = key;
       onView(block);
     }
-  }, [allBlocks, highlightRank, runId, onView]);
+  }, [filtered, highlightRank, runId, onView]);
 
   // city=Name without a run: open that city's latest run
   const cityNotified = useRef('');
   useEffect(() => {
-    if (!cityFromChat || runFromUrl || !runs.length) return;
+    if (!cityFromChat || runFromUrl || !runs || !runs.length) return;
     const want = cityFromChat.toLowerCase();
     if (runMeta && runMeta.city_name.toLowerCase() === want) return;
     const latest = runs
@@ -155,7 +153,7 @@ export default function Dashboard() {
   }, [cityFromChat, runFromUrl, runs, runMeta, params, setParams]);
 
   const changeCity = (cityId) => {
-    const latest = runs
+    const latest = (runs || [])
       .filter((r) => r.city_id === cityId)
       .sort((a, b) => b.date.localeCompare(a.date))[0];
     if (!latest) {
@@ -165,13 +163,17 @@ export default function Dashboard() {
     setParams({ run: latest.run_id });
   };
 
+  if (!runId && runs === null) {
+    return <p className="text-sm text-[var(--text-muted)] mt-16 text-center">Loading…</p>;
+  }
+
   if (!runId) {
     return (
       <Card className="max-w-xl mx-auto mt-16 text-center py-10">
         <MapPin size={32} className="mx-auto text-accent mb-3" />
-        <h2 className="text-lg font-bold mb-1">No analysis loaded</h2>
+        <h2 className="text-lg font-bold mb-1">No analysis yet</h2>
         <p className="text-sm text-[var(--text-muted)] mb-5">
-          Run an analysis or open a past run from City History to see the priority map.
+          Run an analysis to see the priority map, or ask the Agent Chat to start one for a city.
         </p>
         <div className="flex justify-center gap-3">
           <Link to="/run"><Button><PlayCircle size={16} /> Run analysis</Button></Link>
@@ -313,7 +315,7 @@ export default function Dashboard() {
               <span className="text-xs text-[var(--text-muted)]">Click to inspect on the map</span>
             </div>
             <div className="space-y-2">
-              {allBlocks.slice(0, 5).map((b) => (
+              {topBlocks.map((b) => (
                 <BlockCard
                   key={b.id}
                   block={b}
@@ -321,7 +323,7 @@ export default function Dashboard() {
                   onClick={() => onView(b)}
                 />
               ))}
-              {!allBlocks.length && (
+              {!topBlocks.length && (
                 <p className="text-xs text-[var(--text-muted)]">Loading…</p>
               )}
             </div>
@@ -334,7 +336,7 @@ export default function Dashboard() {
             active={filters.action}
             onSelect={(action) => setFilters((f) => ({ ...f, action }))}
           />
-          <RiskHistogram blocks={allBlocks} cityAvg={cityAvg?.risk_score} />
+          <RiskHistogram buckets={summary?.risk_histogram} cityAvg={cityAvg?.risk_score} />
           <CoolingBar data={summary?.cooling_by_action} />
           <TrendLine data={summary?.trend} sources={summary?.data_sources} />
         </div>
@@ -355,10 +357,19 @@ export default function Dashboard() {
         <PriorityTable blocks={visible} onView={onView} />
       </Card>
 
-      <p className="text-xs text-[var(--text-muted)]">
-        Surface temperature only; cooling values are modelled scenarios, not guarantees. This is a screening and
-        prioritization tool, not a replacement for field surveys.
-      </p>
+      <div className="text-xs text-[var(--text-muted)] space-y-1">
+        {summary && (
+          <>
+            <p>Temperature: {summary.lst_source}.</p>
+            <p>Exposure: {summary.population_source}.</p>
+            <p>Materials: {summary.model_source}. Cooling: {summary.cooling_source}.</p>
+          </>
+        )}
+        <p>
+          Cooling values are modelled surface-temperature scenarios, not guarantees. This is a screening and
+          prioritization tool, not a replacement for field surveys.
+        </p>
+      </div>
 
       <BlockDetailPanel block={selected} cityAvg={cityAvg} onClose={closePanel} />
     </div>

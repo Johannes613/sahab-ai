@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { XCircle } from 'lucide-react';
 import { runAnalysis, cancelRun } from '../api/sahab';
 import { useRun } from '../context/RunContext';
-import { useCities } from '../hooks/useCity';
+import { useCityCatalog } from '../hooks/useCity';
 import { useRunStatus } from '../hooks/useRunStatus';
 import RunForm from '../components/run/RunForm';
 import ProgressBar from '../components/run/ProgressBar';
@@ -13,8 +13,8 @@ import Button from '../components/ui/Button';
 
 export default function RunAnalysis() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  // Chat deep links: /run?city=Muscat&bbox=58.1,23.4,58.7,23.8&epsg=32640
+  const [searchParams, setSearchParams] = useSearchParams();
+  // Chat deep links: /run?city=Riyadh&bbox=46.55,24.55,46.85,24.85&epsg=32638 or /run?run_id=...
   const initial = useMemo(() => {
     const city = searchParams.get('city');
     const parts = (searchParams.get('bbox') || '').split(',').map(Number);
@@ -24,8 +24,8 @@ export default function RunAnalysis() {
     return city || bbox ? { city, bbox, epsg: Number.isFinite(epsg) ? epsg : null } : null;
   }, [searchParams]);
   const { setRunId } = useRun();
-  const { cities, reload } = useCities();
-  const [activeRun, setActiveRun] = useState(null);
+  const catalog = useCityCatalog();
+  const [activeRun, setActiveRun] = useState(searchParams.get('run_id'));
   const [busy, setBusy] = useState(false);
   const status = useRunStatus(activeRun);
 
@@ -33,12 +33,14 @@ export default function RunAnalysis() {
     if (status?.status === 'complete') {
       setRunId(activeRun);
       toast.success('Analysis complete');
-      navigate('/');
-    }
-    if (status?.status === 'failed') {
-      toast.error(status.message || 'Analysis failed');
+      navigate(`/?run=${encodeURIComponent(activeRun)}`);
     }
   }, [status, activeRun, setRunId, navigate]);
+
+  const reset = () => {
+    setActiveRun(null);
+    if (searchParams.get('run_id')) setSearchParams({}, { replace: true });
+  };
 
   const start = async (payload) => {
     setBusy(true);
@@ -46,7 +48,12 @@ export default function RunAnalysis() {
       const res = await runAnalysis(payload);
       setActiveRun(res.run_id);
     } catch (err) {
-      toast.error(err.response?.data?.detail || 'Could not start the analysis');
+      const detail = err.response?.data?.detail;
+      toast.error(
+        typeof detail === 'string' ? detail
+          : Array.isArray(detail) ? detail.map((d) => d.msg).join('; ')
+          : 'Could not start the analysis'
+      );
     } finally {
       setBusy(false);
     }
@@ -58,21 +65,26 @@ export default function RunAnalysis() {
     } catch (err) {
       /* the run may already be gone */
     }
-    setActiveRun(null);
+    reset();
     toast('Run cancelled');
   };
 
   if (activeRun) {
+    const ended = status && ['failed', 'cancelled'].includes(status.status);
     return (
       <div className="max-w-xl mx-auto">
         <Card className="p-6">
           <h2 className="text-lg font-bold mb-4">Running analysis</h2>
           <ProgressBar status={status} />
+          {status?.status === 'failed' && (
+            <div className="mt-4 bg-red-50 border border-red-200 text-red-600 text-sm px-3 py-2 rounded-lg dark:bg-red-900/20 dark:border-red-900 dark:text-red-300">
+              {status.message}
+            </div>
+          )}
           <div className="mt-6 flex justify-end gap-2">
-            {status?.status === 'failed' && (
-              <Button variant="secondary" onClick={() => setActiveRun(null)}>Back to form</Button>
-            )}
-            {status?.status !== 'failed' && (
+            {ended ? (
+              <Button variant="secondary" onClick={reset}>Back to form</Button>
+            ) : (
               <Button variant="danger" size="sm" onClick={cancel}>
                 <XCircle size={14} /> Cancel run
               </Button>
@@ -88,10 +100,10 @@ export default function RunAnalysis() {
       <div>
         <h1 className="text-xl font-bold">Run analysis</h1>
         <p className="text-sm text-[var(--text-muted)]">
-          Pick an area and two Tanager scenes. The pipeline takes about 1 to 3 minutes.
+          Pick an area and a Tanager scene. A run takes about 2 to 4 minutes, plus the first download of each scene (about 1 GB).
         </p>
       </div>
-      <RunForm cities={cities} onSubmit={start} busy={busy} onCityAdded={reload} initial={initial} />
+      <RunForm catalog={catalog} onSubmit={start} busy={busy} initial={initial} />
     </div>
   );
 }

@@ -5,8 +5,8 @@ import { LayoutDashboard, PlayCircle, History, Info, CloudSun, Bot } from 'lucid
 const NAV = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
   { to: '/run', icon: PlayCircle, label: 'Run Analysis' },
-  { to: '/history', icon: History, label: 'City History' },
   { to: '/chat', icon: Bot, label: 'Agent Chat' },
+  { to: '/history', icon: History, label: 'City History' },
   { to: '/about', icon: Info, label: 'About' },
 ];
 

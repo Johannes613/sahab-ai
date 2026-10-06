@@ -37,12 +37,12 @@ export default function FilterPanel({ filters, onChange, search, onSearch }) {
 
       <div>
         <label className="block text-xs text-[var(--text-muted)] mb-1">
-          Min population: {Number(filters.min_population || 0).toLocaleString()}
+          Min exposure: {Number(filters.min_exposure || 0).toFixed(2)}
         </label>
         <input
-          type="range" min="0" max="5000" step="250"
-          value={filters.min_population || 0}
-          onChange={(e) => set({ min_population: Number(e.target.value) })}
+          type="range" min="0" max="1" step="0.05"
+          value={filters.min_exposure || 0}
+          onChange={(e) => set({ min_exposure: Number(e.target.value) })}
           className="w-40 accent-[#8100D1]"
         />
       </div>

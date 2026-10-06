@@ -1,5 +1,5 @@
 import React from 'react';
-import { Building2, TreePine, Home, FlaskConical } from 'lucide-react';
+import { Building2, TreePine, Home } from 'lucide-react';
 
 function Stat({ label, value }) {
   return (
@@ -19,11 +19,6 @@ export default function CityCard({ data }) {
         <div className="flex items-center gap-2 text-sm font-bold text-[var(--text-main)]">
           <Building2 size={16} className="text-accent" /> {data.city} heat risk summary
         </div>
-        {data.is_demo && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-yellow-100 px-2 py-0.5 text-[11px] font-medium text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300">
-            <FlaskConical size={11} /> Simulated
-          </span>
-        )}
       </div>
 
       <div className="grid grid-cols-2 gap-2">

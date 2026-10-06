@@ -6,7 +6,8 @@ import ActionLink from './ActionLink';
 
 export default function ChatBubble({ msg, onFollowup }) {
   const isUser = msg.role === 'user';
-  const cards = [msg.data, ...(msg.extra_data || [])].filter(Boolean);
+  // only runs with real results get a card; pending, failed and unavailable ones are explained in the text
+  const cards = [msg.data, ...(msg.extra_data || [])].filter((d) => d && d.state === 'ready');
   const fallbackNote = msg.warnings && msg.warnings.length > 0 ? msg.warnings[0] : null;
 
   return (

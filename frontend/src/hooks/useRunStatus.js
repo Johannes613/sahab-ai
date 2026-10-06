@@ -14,7 +14,7 @@ export function useRunStatus(runId) {
         const data = await getStatus(runId);
         if (cancelled) return;
         setStatus(data);
-        if (data.status === 'complete' || data.status === 'failed') return;
+        if (['complete', 'failed', 'cancelled'].includes(data.status)) return;
       } catch (err) {
         if (cancelled) return;
         setStatus({ run_id: runId, status: 'failed', progress_pct: 0, message: 'Lost connection to the server' });
